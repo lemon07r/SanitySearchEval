@@ -1,0 +1,269 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="650" viewBox="0 0 1000 650" role="img" aria-labelledby="revera-title revera-desc" font-family="Inter, -apple-system, Segoe UI, Helvetica, Arial, sans-serif">
+<title id="revera-title">Revera: review outcomes by task</title>
+<desc id="revera-desc">rv-commander15-negate: Exa bug found, bug found, bug found; Parallel bug found; Tavily bug found; Brave bug found; Firecrawl bug found, bug found, bug found; No search bug missed, bug missed, bug missed. rv-got16-http2-agent: Exa bug found, bug found, bug found; Parallel bug found; Tavily bug found; Brave bug found; Firecrawl bug found, bug found, bug found; No search bug missed, bug missed, bug missed. rv-got16-migrate: Exa clean, clean, clean; Parallel strict finding; Tavily strict finding; Brave strict finding; Firecrawl clean, clean, strict finding; No search clean, clean, clean. rv-ky2-migrate: Exa clean; Parallel clean; Tavily clean; Brave clean; Firecrawl clean; No search clean. Amber dots mark additional uncertain comments. Strict clean-control findings were adjudicated not hallucinations.</desc>
+<rect x="0.5" y="0.5" width="999" height="649" rx="20" fill="#0d1117" stroke="#30363d"/>
+<text x="30" y="47" font-size="24" fill="#f0f6fc" font-weight="700" letter-spacing="-0.4">Revera: review outcomes by task</text>
+<text x="30" y="76" font-size="14" fill="#a5afba">Quick pass + confirmation reps · one marker per run, in source order · unequal repetitions</text>
+<text x="42" y="127" font-size="14" fill="#f0f6fc" font-weight="650">Task</text>
+<text x="42" y="147" font-size="12" fill="#a5afba">Known bug or clean control</text>
+<rect x="321" y="99" width="44" height="3" fill="#6366f1" rx="1.5"/>
+<text x="343" y="127" font-size="14" fill="#f0f6fc" text-anchor="middle" font-weight="650">Exa</text>
+<text x="343" y="147" font-size="12" fill="#a5afba" text-anchor="middle">auto</text>
+<rect x="435" y="99" width="44" height="3" fill="#06b6d4" rx="1.5"/>
+<text x="457" y="127" font-size="14" fill="#f0f6fc" text-anchor="middle" font-weight="650">Parallel</text>
+<text x="457" y="147" font-size="12" fill="#a5afba" text-anchor="middle">fast</text>
+<rect x="549" y="99" width="44" height="3" fill="#10b981" rx="1.5"/>
+<text x="571" y="127" font-size="14" fill="#f0f6fc" text-anchor="middle" font-weight="650">Tavily</text>
+<text x="571" y="147" font-size="12" fill="#a5afba" text-anchor="middle">advanced</text>
+<rect x="663" y="99" width="44" height="3" fill="#f97316" rx="1.5"/>
+<text x="685" y="127" font-size="14" fill="#f0f6fc" text-anchor="middle" font-weight="650">Brave</text>
+<text x="685" y="147" font-size="12" fill="#a5afba" text-anchor="middle">web</text>
+<rect x="777" y="99" width="44" height="3" fill="#f43f5e" rx="1.5"/>
+<text x="799" y="127" font-size="14" fill="#f0f6fc" text-anchor="middle" font-weight="650">Firecrawl</text>
+<text x="799" y="147" font-size="12" fill="#a5afba" text-anchor="middle">search</text>
+<rect x="891" y="99" width="44" height="3" fill="#9ca3af" rx="1.5"/>
+<text x="913" y="127" font-size="14" fill="#f0f6fc" text-anchor="middle" font-weight="650">No search</text>
+<text x="913" y="147" font-size="12" fill="#a5afba" text-anchor="middle">baseline</text>
+<rect x="30" y="166" width="940" height="76" fill="#161b22" rx="8"/>
+<text x="42" y="203" font-size="14" fill="#f0f6fc" font-weight="600">rv-commander15-negate</text>
+<text x="42" y="224" font-size="12" fill="#a5afba">Known bug</text>
+<line x1="286" y1="175" x2="286" y2="233" stroke="#30363d"/>
+<g><title>rv-commander15-negate, Exa, run 1: found; bugs 1/1, strict findings 0, uncertain 0</title>
+<circle cx="316" cy="205" r="9" fill="#3fb950" stroke="#3fb950" stroke-width="1.8"/>
+<path d="M 312 205 l 3 3 l 5 -6" fill="none" stroke="#0d1117" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g><title>rv-commander15-negate, Exa, run 2: found; bugs 1/1, strict findings 0, uncertain 0</title>
+<circle cx="343" cy="205" r="9" fill="#3fb950" stroke="#3fb950" stroke-width="1.8"/>
+<path d="M 339 205 l 3 3 l 5 -6" fill="none" stroke="#0d1117" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g><title>rv-commander15-negate, Exa, run 3: found; bugs 1/1, strict findings 0, uncertain 0</title>
+<circle cx="370" cy="205" r="9" fill="#3fb950" stroke="#3fb950" stroke-width="1.8"/>
+<path d="M 366 205 l 3 3 l 5 -6" fill="none" stroke="#0d1117" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<line x1="400" y1="175" x2="400" y2="233" stroke="#30363d"/>
+<g><title>rv-commander15-negate, Parallel, run 1: found; bugs 1/1, strict findings 0, uncertain 0</title>
+<circle cx="457" cy="205" r="9" fill="#3fb950" stroke="#3fb950" stroke-width="1.8"/>
+<path d="M 453 205 l 3 3 l 5 -6" fill="none" stroke="#0d1117" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<line x1="514" y1="175" x2="514" y2="233" stroke="#30363d"/>
+<g><title>rv-commander15-negate, Tavily, run 1: found; bugs 1/1, strict findings 0, uncertain 0</title>
+<circle cx="571" cy="205" r="9" fill="#3fb950" stroke="#3fb950" stroke-width="1.8"/>
+<path d="M 567 205 l 3 3 l 5 -6" fill="none" stroke="#0d1117" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<line x1="628" y1="175" x2="628" y2="233" stroke="#30363d"/>
+<g><title>rv-commander15-negate, Brave, run 1: found; bugs 1/1, strict findings 0, uncertain 0</title>
+<circle cx="685" cy="205" r="9" fill="#3fb950" stroke="#3fb950" stroke-width="1.8"/>
+<path d="M 681 205 l 3 3 l 5 -6" fill="none" stroke="#0d1117" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<line x1="742" y1="175" x2="742" y2="233" stroke="#30363d"/>
+<g><title>rv-commander15-negate, Firecrawl, run 1: found; bugs 1/1, strict findings 0, uncertain 0</title>
+<circle cx="772" cy="205" r="9" fill="#3fb950" stroke="#3fb950" stroke-width="1.8"/>
+<path d="M 768 205 l 3 3 l 5 -6" fill="none" stroke="#0d1117" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g><title>rv-commander15-negate, Firecrawl, run 2: found; bugs 1/1, strict findings 0, uncertain 0</title>
+<circle cx="799" cy="205" r="9" fill="#3fb950" stroke="#3fb950" stroke-width="1.8"/>
+<path d="M 795 205 l 3 3 l 5 -6" fill="none" stroke="#0d1117" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g><title>rv-commander15-negate, Firecrawl, run 3: found; bugs 1/1, strict findings 0, uncertain 0</title>
+<circle cx="826" cy="205" r="9" fill="#3fb950" stroke="#3fb950" stroke-width="1.8"/>
+<path d="M 822 205 l 3 3 l 5 -6" fill="none" stroke="#0d1117" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<line x1="856" y1="175" x2="856" y2="233" stroke="#30363d"/>
+<g><title>rv-commander15-negate, No search, run 1: missed; bugs 0/1, strict findings 0, uncertain 0</title>
+<circle cx="886" cy="205" r="9" fill="#161b22" stroke="#f85149" stroke-width="1.8"/>
+<line x1="883" y1="202" x2="889" y2="208" stroke="#f85149" stroke-width="1.8"/>
+<line x1="883" y1="208" x2="889" y2="202" stroke="#f85149" stroke-width="1.8"/>
+</g>
+<g><title>rv-commander15-negate, No search, run 2: missed; bugs 0/1, strict findings 0, uncertain 1; uncertain comment also present</title>
+<circle cx="913" cy="205" r="9" fill="#161b22" stroke="#f85149" stroke-width="1.8"/>
+<line x1="910" y1="202" x2="916" y2="208" stroke="#f85149" stroke-width="1.8"/>
+<line x1="910" y1="208" x2="916" y2="202" stroke="#f85149" stroke-width="1.8"/>
+<circle cx="923" cy="195" r="4" fill="#d29922" stroke="#0d1117" stroke-width="1.2"/>
+</g>
+<g><title>rv-commander15-negate, No search, run 3: missed; bugs 0/1, strict findings 0, uncertain 0</title>
+<circle cx="940" cy="205" r="9" fill="#161b22" stroke="#f85149" stroke-width="1.8"/>
+<line x1="937" y1="202" x2="943" y2="208" stroke="#f85149" stroke-width="1.8"/>
+<line x1="937" y1="208" x2="943" y2="202" stroke="#f85149" stroke-width="1.8"/>
+</g>
+<rect x="30" y="244" width="940" height="76" fill="#0d1117" rx="8"/>
+<text x="42" y="281" font-size="14" fill="#f0f6fc" font-weight="600">rv-got16-http2-agent</text>
+<text x="42" y="302" font-size="12" fill="#a5afba">Known bug</text>
+<line x1="286" y1="253" x2="286" y2="311" stroke="#30363d"/>
+<g><title>rv-got16-http2-agent, Exa, run 1: found; bugs 1/1, strict findings 0, uncertain 0</title>
+<circle cx="316" cy="283" r="9" fill="#3fb950" stroke="#3fb950" stroke-width="1.8"/>
+<path d="M 312 283 l 3 3 l 5 -6" fill="none" stroke="#0d1117" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g><title>rv-got16-http2-agent, Exa, run 2: found; bugs 1/1, strict findings 0, uncertain 0</title>
+<circle cx="343" cy="283" r="9" fill="#3fb950" stroke="#3fb950" stroke-width="1.8"/>
+<path d="M 339 283 l 3 3 l 5 -6" fill="none" stroke="#0d1117" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g><title>rv-got16-http2-agent, Exa, run 3: found; bugs 1/1, strict findings 0, uncertain 0</title>
+<circle cx="370" cy="283" r="9" fill="#3fb950" stroke="#3fb950" stroke-width="1.8"/>
+<path d="M 366 283 l 3 3 l 5 -6" fill="none" stroke="#0d1117" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<line x1="400" y1="253" x2="400" y2="311" stroke="#30363d"/>
+<g><title>rv-got16-http2-agent, Parallel, run 1: found; bugs 1/1, strict findings 0, uncertain 0</title>
+<circle cx="457" cy="283" r="9" fill="#3fb950" stroke="#3fb950" stroke-width="1.8"/>
+<path d="M 453 283 l 3 3 l 5 -6" fill="none" stroke="#0d1117" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<line x1="514" y1="253" x2="514" y2="311" stroke="#30363d"/>
+<g><title>rv-got16-http2-agent, Tavily, run 1: found; bugs 1/1, strict findings 0, uncertain 0</title>
+<circle cx="571" cy="283" r="9" fill="#3fb950" stroke="#3fb950" stroke-width="1.8"/>
+<path d="M 567 283 l 3 3 l 5 -6" fill="none" stroke="#0d1117" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<line x1="628" y1="253" x2="628" y2="311" stroke="#30363d"/>
+<g><title>rv-got16-http2-agent, Brave, run 1: found; bugs 1/1, strict findings 0, uncertain 0</title>
+<circle cx="685" cy="283" r="9" fill="#3fb950" stroke="#3fb950" stroke-width="1.8"/>
+<path d="M 681 283 l 3 3 l 5 -6" fill="none" stroke="#0d1117" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<line x1="742" y1="253" x2="742" y2="311" stroke="#30363d"/>
+<g><title>rv-got16-http2-agent, Firecrawl, run 1: found; bugs 1/1, strict findings 0, uncertain 0</title>
+<circle cx="772" cy="283" r="9" fill="#3fb950" stroke="#3fb950" stroke-width="1.8"/>
+<path d="M 768 283 l 3 3 l 5 -6" fill="none" stroke="#0d1117" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g><title>rv-got16-http2-agent, Firecrawl, run 2: found; bugs 1/1, strict findings 0, uncertain 0</title>
+<circle cx="799" cy="283" r="9" fill="#3fb950" stroke="#3fb950" stroke-width="1.8"/>
+<path d="M 795 283 l 3 3 l 5 -6" fill="none" stroke="#0d1117" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g><title>rv-got16-http2-agent, Firecrawl, run 3: found; bugs 1/1, strict findings 0, uncertain 0</title>
+<circle cx="826" cy="283" r="9" fill="#3fb950" stroke="#3fb950" stroke-width="1.8"/>
+<path d="M 822 283 l 3 3 l 5 -6" fill="none" stroke="#0d1117" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<line x1="856" y1="253" x2="856" y2="311" stroke="#30363d"/>
+<g><title>rv-got16-http2-agent, No search, run 1: missed; bugs 0/1, strict findings 0, uncertain 1; uncertain comment also present</title>
+<circle cx="886" cy="283" r="9" fill="#161b22" stroke="#f85149" stroke-width="1.8"/>
+<line x1="883" y1="280" x2="889" y2="286" stroke="#f85149" stroke-width="1.8"/>
+<line x1="883" y1="286" x2="889" y2="280" stroke="#f85149" stroke-width="1.8"/>
+<circle cx="896" cy="273" r="4" fill="#d29922" stroke="#0d1117" stroke-width="1.2"/>
+</g>
+<g><title>rv-got16-http2-agent, No search, run 2: missed; bugs 0/1, strict findings 0, uncertain 1; uncertain comment also present</title>
+<circle cx="913" cy="283" r="9" fill="#161b22" stroke="#f85149" stroke-width="1.8"/>
+<line x1="910" y1="280" x2="916" y2="286" stroke="#f85149" stroke-width="1.8"/>
+<line x1="910" y1="286" x2="916" y2="280" stroke="#f85149" stroke-width="1.8"/>
+<circle cx="923" cy="273" r="4" fill="#d29922" stroke="#0d1117" stroke-width="1.2"/>
+</g>
+<g><title>rv-got16-http2-agent, No search, run 3: missed; bugs 0/1, strict findings 0, uncertain 1; uncertain comment also present</title>
+<circle cx="940" cy="283" r="9" fill="#161b22" stroke="#f85149" stroke-width="1.8"/>
+<line x1="937" y1="280" x2="943" y2="286" stroke="#f85149" stroke-width="1.8"/>
+<line x1="937" y1="286" x2="943" y2="280" stroke="#f85149" stroke-width="1.8"/>
+<circle cx="950" cy="273" r="4" fill="#d29922" stroke="#0d1117" stroke-width="1.2"/>
+</g>
+<rect x="30" y="322" width="940" height="76" fill="#161b22" rx="8"/>
+<text x="42" y="359" font-size="14" fill="#f0f6fc" font-weight="600">rv-got16-migrate</text>
+<text x="42" y="380" font-size="12" fill="#a5afba">Clean control</text>
+<line x1="286" y1="331" x2="286" y2="389" stroke="#30363d"/>
+<g><title>rv-got16-migrate, Exa, run 1: clean; bugs 0/0, strict findings 0, uncertain 0</title>
+<circle cx="316" cy="361" r="9" fill="#161b22" stroke="#a5afba" stroke-width="1.8"/>
+<line x1="313" y1="361" x2="319" y2="361" stroke="#a5afba" stroke-width="1.8"/>
+</g>
+<g><title>rv-got16-migrate, Exa, run 2: clean; bugs 0/0, strict findings 0, uncertain 0</title>
+<circle cx="343" cy="361" r="9" fill="#161b22" stroke="#a5afba" stroke-width="1.8"/>
+<line x1="340" y1="361" x2="346" y2="361" stroke="#a5afba" stroke-width="1.8"/>
+</g>
+<g><title>rv-got16-migrate, Exa, run 3: clean; bugs 0/0, strict findings 0, uncertain 1; uncertain comment also present</title>
+<circle cx="370" cy="361" r="9" fill="#161b22" stroke="#a5afba" stroke-width="1.8"/>
+<line x1="367" y1="361" x2="373" y2="361" stroke="#a5afba" stroke-width="1.8"/>
+<circle cx="380" cy="351" r="4" fill="#d29922" stroke="#0d1117" stroke-width="1.2"/>
+</g>
+<line x1="400" y1="331" x2="400" y2="389" stroke="#30363d"/>
+<g><title>rv-got16-migrate, Parallel, run 1: strict; bugs 0/0, strict findings 1, uncertain 1; uncertain comment also present</title>
+<path d="M 457 350 L 468 361 L 457 372 L 446 361 Z" fill="#d29922"/>
+<text x="457" y="365" font-size="13" fill="#0d1117" font-weight="800" text-anchor="middle">!</text>
+<circle cx="467" cy="351" r="4" fill="#d29922" stroke="#0d1117" stroke-width="1.2"/>
+</g>
+<line x1="514" y1="331" x2="514" y2="389" stroke="#30363d"/>
+<g><title>rv-got16-migrate, Tavily, run 1: strict; bugs 0/0, strict findings 1, uncertain 0</title>
+<path d="M 571 350 L 582 361 L 571 372 L 560 361 Z" fill="#d29922"/>
+<text x="571" y="365" font-size="13" fill="#0d1117" font-weight="800" text-anchor="middle">!</text>
+</g>
+<line x1="628" y1="331" x2="628" y2="389" stroke="#30363d"/>
+<g><title>rv-got16-migrate, Brave, run 1: strict; bugs 0/0, strict findings 1, uncertain 0</title>
+<path d="M 685 350 L 696 361 L 685 372 L 674 361 Z" fill="#d29922"/>
+<text x="685" y="365" font-size="13" fill="#0d1117" font-weight="800" text-anchor="middle">!</text>
+</g>
+<line x1="742" y1="331" x2="742" y2="389" stroke="#30363d"/>
+<g><title>rv-got16-migrate, Firecrawl, run 1: clean; bugs 0/0, strict findings 0, uncertain 1; uncertain comment also present</title>
+<circle cx="772" cy="361" r="9" fill="#161b22" stroke="#a5afba" stroke-width="1.8"/>
+<line x1="769" y1="361" x2="775" y2="361" stroke="#a5afba" stroke-width="1.8"/>
+<circle cx="782" cy="351" r="4" fill="#d29922" stroke="#0d1117" stroke-width="1.2"/>
+</g>
+<g><title>rv-got16-migrate, Firecrawl, run 2: clean; bugs 0/0, strict findings 0, uncertain 0</title>
+<circle cx="799" cy="361" r="9" fill="#161b22" stroke="#a5afba" stroke-width="1.8"/>
+<line x1="796" y1="361" x2="802" y2="361" stroke="#a5afba" stroke-width="1.8"/>
+</g>
+<g><title>rv-got16-migrate, Firecrawl, run 3: strict; bugs 0/0, strict findings 1, uncertain 0</title>
+<path d="M 826 350 L 837 361 L 826 372 L 815 361 Z" fill="#d29922"/>
+<text x="826" y="365" font-size="13" fill="#0d1117" font-weight="800" text-anchor="middle">!</text>
+</g>
+<line x1="856" y1="331" x2="856" y2="389" stroke="#30363d"/>
+<g><title>rv-got16-migrate, No search, run 1: clean; bugs 0/0, strict findings 0, uncertain 0</title>
+<circle cx="886" cy="361" r="9" fill="#161b22" stroke="#a5afba" stroke-width="1.8"/>
+<line x1="883" y1="361" x2="889" y2="361" stroke="#a5afba" stroke-width="1.8"/>
+</g>
+<g><title>rv-got16-migrate, No search, run 2: clean; bugs 0/0, strict findings 0, uncertain 0</title>
+<circle cx="913" cy="361" r="9" fill="#161b22" stroke="#a5afba" stroke-width="1.8"/>
+<line x1="910" y1="361" x2="916" y2="361" stroke="#a5afba" stroke-width="1.8"/>
+</g>
+<g><title>rv-got16-migrate, No search, run 3: clean; bugs 0/0, strict findings 0, uncertain 0</title>
+<circle cx="940" cy="361" r="9" fill="#161b22" stroke="#a5afba" stroke-width="1.8"/>
+<line x1="937" y1="361" x2="943" y2="361" stroke="#a5afba" stroke-width="1.8"/>
+</g>
+<rect x="30" y="400" width="940" height="76" fill="#0d1117" rx="8"/>
+<text x="42" y="437" font-size="14" fill="#f0f6fc" font-weight="600">rv-ky2-migrate</text>
+<text x="42" y="458" font-size="12" fill="#a5afba">Clean control</text>
+<line x1="286" y1="409" x2="286" y2="467" stroke="#30363d"/>
+<g><title>rv-ky2-migrate, Exa, run 1: clean; bugs 0/0, strict findings 0, uncertain 0</title>
+<circle cx="343" cy="439" r="9" fill="#161b22" stroke="#a5afba" stroke-width="1.8"/>
+<line x1="340" y1="439" x2="346" y2="439" stroke="#a5afba" stroke-width="1.8"/>
+</g>
+<line x1="400" y1="409" x2="400" y2="467" stroke="#30363d"/>
+<g><title>rv-ky2-migrate, Parallel, run 1: clean; bugs 0/0, strict findings 0, uncertain 0</title>
+<circle cx="457" cy="439" r="9" fill="#161b22" stroke="#a5afba" stroke-width="1.8"/>
+<line x1="454" y1="439" x2="460" y2="439" stroke="#a5afba" stroke-width="1.8"/>
+</g>
+<line x1="514" y1="409" x2="514" y2="467" stroke="#30363d"/>
+<g><title>rv-ky2-migrate, Tavily, run 1: clean; bugs 0/0, strict findings 0, uncertain 0</title>
+<circle cx="571" cy="439" r="9" fill="#161b22" stroke="#a5afba" stroke-width="1.8"/>
+<line x1="568" y1="439" x2="574" y2="439" stroke="#a5afba" stroke-width="1.8"/>
+</g>
+<line x1="628" y1="409" x2="628" y2="467" stroke="#30363d"/>
+<g><title>rv-ky2-migrate, Brave, run 1: clean; bugs 0/0, strict findings 0, uncertain 0</title>
+<circle cx="685" cy="439" r="9" fill="#161b22" stroke="#a5afba" stroke-width="1.8"/>
+<line x1="682" y1="439" x2="688" y2="439" stroke="#a5afba" stroke-width="1.8"/>
+</g>
+<line x1="742" y1="409" x2="742" y2="467" stroke="#30363d"/>
+<g><title>rv-ky2-migrate, Firecrawl, run 1: clean; bugs 0/0, strict findings 0, uncertain 0</title>
+<circle cx="799" cy="439" r="9" fill="#161b22" stroke="#a5afba" stroke-width="1.8"/>
+<line x1="796" y1="439" x2="802" y2="439" stroke="#a5afba" stroke-width="1.8"/>
+</g>
+<line x1="856" y1="409" x2="856" y2="467" stroke="#30363d"/>
+<g><title>rv-ky2-migrate, No search, run 1: clean; bugs 0/0, strict findings 0, uncertain 0</title>
+<circle cx="913" cy="439" r="9" fill="#161b22" stroke="#a5afba" stroke-width="1.8"/>
+<line x1="910" y1="439" x2="916" y2="439" stroke="#a5afba" stroke-width="1.8"/>
+</g>
+<g><title>found</title>
+<circle cx="42" cy="515" r="9" fill="#3fb950" stroke="#3fb950" stroke-width="1.8"/>
+<path d="M 38 515 l 3 3 l 5 -6" fill="none" stroke="#0d1117" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<text x="60" y="520" font-size="13" fill="#a5afba">Bug found</text>
+<g><title>missed</title>
+<circle cx="210" cy="515" r="9" fill="#161b22" stroke="#f85149" stroke-width="1.8"/>
+<line x1="207" y1="512" x2="213" y2="518" stroke="#f85149" stroke-width="1.8"/>
+<line x1="207" y1="518" x2="213" y2="512" stroke="#f85149" stroke-width="1.8"/>
+</g>
+<text x="228" y="520" font-size="13" fill="#a5afba">Bug missed</text>
+<g><title>clean</title>
+<circle cx="385" cy="515" r="9" fill="#161b22" stroke="#a5afba" stroke-width="1.8"/>
+<line x1="382" y1="515" x2="388" y2="515" stroke="#a5afba" stroke-width="1.8"/>
+</g>
+<text x="403" y="520" font-size="13" fill="#a5afba">Clean, no finding</text>
+<g><title>strict</title>
+<path d="M 626 504 L 637 515 L 626 526 L 615 515 Z" fill="#d29922"/>
+<text x="626" y="519" font-size="13" fill="#0d1117" font-weight="800" text-anchor="middle">!</text>
+</g>
+<text x="644" y="520" font-size="13" fill="#a5afba">Strict clean-control finding</text>
+<circle cx="42" cy="550" r="4" fill="#d29922"/>
+<text x="60" y="555" font-size="13" fill="#a5afba">Small amber dot: an uncertain comment was also present (not a strict finding).</text>
+<text x="30" y="597" font-size="13" fill="#a5afba">Strict findings on rv-got16-migrate were the same correct-premise comment;</text>
+<text x="30" y="618" font-size="13" fill="#a5afba">adjudicated not a hallucination.</text>
+</svg>

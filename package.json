@@ -10,7 +10,9 @@
     "judge": "bun src/cli.ts judge",
     "truth:check": "bun src/cli.ts truth:check",
     "fixtures:setup": "bun scripts/setup-fixtures.ts",
-    "test": "bun test"
+    "test": "bun test",
+    "site:data": "bun scripts/site-data.ts",
+    "charts": "bun scripts/charts.ts"
   },
   "dependencies": {"@mozilla/readability": "^0.6.0", "linkedom": "^0.18.12", "turndown": "^7.2.1"},
   "devDependencies": {"@types/bun": "^1.3.0", "@types/turndown": "^5.0.5", "typescript": "^5.9.3"}
