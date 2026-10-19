@@ -1,0 +1,16 @@
+{
+  "id": "rv-got16-migrate",
+  "product": "revera",
+  "title": "Refresh the snapshot monitor transport",
+  "prompt": "Review this PR for actionable defects. The PR updates the snapshot monitor's HTTP client dependency and simplifies its transport setup. The repository is the post-PR state; pr.diff contains the changes.",
+  "package_versions": {
+    "got": "16.1.0"
+  },
+  "diff_file": "pr.diff",
+  "clean": true,
+  "known_bugs": [],
+  "sources": [
+    "https://github.com/sindresorhus/got/releases/tag/v16.0.0"
+  ],
+  "notes_private": "Clean control. Removes the wrapper transport and uses Got's native transport with pooling opted out; status uses response.statusCode. Verified JSON, request ID, success status and HTTP failure against a local HTTP server. bun.lock pins the post-PR environment and is not part of the review diff."
+}

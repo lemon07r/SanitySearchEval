@@ -1,0 +1,245 @@
+{
+  "timestamp": "2026-10-19T08:46:08.326Z",
+  "results": [
+    {
+      "case_file": "cases/pilot.json",
+      "case_id": "p-rust-cve-2024-24576-linux",
+      "url": "https://blog.rust-lang.org/2024/04/09/cve-2024-24576/",
+      "pass": true,
+      "sha256": "4b9a8f1d05a45b8cb79a189d238744535c51215502cf3560f6e24246c323bc04",
+      "checked_at": "2026-10-19T08:45:57.772Z"
+    },
+    {
+      "case_file": "cases/pilot.json",
+      "case_id": "p-express5-wildcard",
+      "url": "https://expressjs.com/en/guide/migrating-5.html",
+      "pass": true,
+      "sha256": "253594d95b47dd36eb98d0140f8ab5224cb32945d9a1348324136ad9b81cea64",
+      "checked_at": "2026-10-19T08:45:58.099Z"
+    },
+    {
+      "case_file": "cases/pilot.json",
+      "case_id": "p-zod4-error-format",
+      "url": "https://zod.dev/v4/changelog",
+      "pass": true,
+      "sha256": "8b4310f950e62cfa146bac77a67abca18bd4c82746d6e08d664b45bb022ef34d",
+      "checked_at": "2026-10-19T08:45:58.440Z"
+    },
+    {
+      "case_file": "cases/pilot.json",
+      "case_id": "p-rust-lazylock-version",
+      "url": "https://doc.rust-lang.org/std/sync/struct.LazyLock.html",
+      "pass": true,
+      "sha256": "7ff3a2aa4391badfc43aae31a9d77fb2f6f0c6002f890a607b732a3c7b9fbebc",
+      "checked_at": "2026-10-19T08:45:58.639Z"
+    },
+    {
+      "case_file": "cases/pilot.json",
+      "case_id": "p-pg18-data-checksums",
+      "url": "https://www.postgresql.org/docs/18/release-18.html",
+      "pass": true,
+      "sha256": "6c96bbcce33606ffc99ac508eb02a75baf6c64ea17a6fec738849e2ea2afc48a",
+      "checked_at": "2026-10-19T08:45:59.194Z"
+    },
+    {
+      "case_file": "cases/pilot.json",
+      "case_id": "p-vitest5-attachments-dir",
+      "url": "https://github.com/vitest-dev/vitest/releases/tag/v5.0.0",
+      "pass": true,
+      "sha256": "2953d9ae8156515d490a57ea62496b806e83cc695f420a63281e574980e7f3ac",
+      "checked_at": "2026-10-19T08:46:00.298Z"
+    },
+    {
+      "case_file": "cases/search-holdout.json",
+      "case_id": "r-pymongo-host-injection",
+      "url": "https://github.com/advisories/GHSA-vp6j-j7w5-5xjj",
+      "pass": true,
+      "sha256": "07bcdcdaedfe907530c9ec2e3aedda2d34641284eb5de78084441d1ca175096f",
+      "checked_at": "2026-10-19T08:46:00.686Z"
+    },
+    {
+      "case_file": "cases/search-holdout.json",
+      "case_id": "r-strawberry-async-permission",
+      "url": "https://github.com/advisories/GHSA-pfvf-fwfp-25mp",
+      "pass": true,
+      "sha256": "7cd0af3e19dc6fe7edcd936255d045c3fe075c62f2f060779543f849b93cd49f",
+      "checked_at": "2026-10-19T08:46:01.134Z"
+    },
+    {
+      "case_file": "cases/search-holdout.json",
+      "case_id": "r-uv-wheel-windows",
+      "url": "https://github.com/advisories/GHSA-2cv4-cqwr-gwf7",
+      "pass": true,
+      "sha256": "8078335e953f8626f53496146a57a5ce251e5f0c1aeacc84d0553e9012891857",
+      "checked_at": "2026-10-19T08:46:01.506Z"
+    },
+    {
+      "case_file": "cases/search-holdout.json",
+      "case_id": "r-python312-tarfile-default-filter",
+      "url": "https://docs.python.org/3/library/tarfile.html",
+      "pass": true,
+      "sha256": "046f45876ad9b13468410aaeedb91281f19d5ac95959b8a916fc1b3673a8bddd",
+      "checked_at": "2026-10-19T08:46:01.754Z"
+    },
+    {
+      "case_file": "cases/search-holdout.json",
+      "case_id": "r-go-loopvar-go121-module",
+      "url": "https://go.dev/blog/loopvar-preview",
+      "pass": true,
+      "sha256": "d2106f4dd3e7e84104098f26f94229e86ff878b63670c3cd30f291d5b5c31681",
+      "checked_at": "2026-10-19T08:46:02.009Z"
+    },
+    {
+      "case_file": "cases/search-holdout.json",
+      "case_id": "r-quart-debug-print-version",
+      "url": "https://github.com/advisories/GHSA-v853-p72q-4cfw",
+      "pass": true,
+      "sha256": "bdbdd2b41ed2b7acb7edd8e1e2796ccb79f2a1c99be9dc444597524ff1ca566f",
+      "checked_at": "2026-10-19T08:46:02.328Z"
+    },
+    {
+      "case_file": "cases/search-holdout.json",
+      "case_id": "r-got15-strict-content-length",
+      "url": "https://github.com/sindresorhus/got/releases/tag/v15.0.0",
+      "pass": true,
+      "sha256": "1cf77247db9faea47d40a2ddf200dfd1c121ad388fe9ad9565e877ceb8defcb1",
+      "checked_at": "2026-10-19T08:46:02.967Z"
+    },
+    {
+      "case_file": "cases/search-holdout.json",
+      "case_id": "r-chalk6-force-color",
+      "url": "https://github.com/chalk/chalk/releases/tag/v6.0.0",
+      "pass": true,
+      "sha256": "25c92e7dd9b4ac1fddccbe8a963ebe88b264abd251f55d57a123558c0b1f0564",
+      "checked_at": "2026-10-19T08:46:03.484Z"
+    },
+    {
+      "case_file": "cases/search-holdout.json",
+      "case_id": "r-mise-untrusted-shell-args",
+      "url": "https://github.com/advisories/GHSA-g74g-rg72-j2p3",
+      "pass": true,
+      "sha256": "c9647c2d93321264fdf73a7081ef57c636f7a9f8491e4724e5cbd9294798b90a",
+      "checked_at": "2026-10-19T08:46:03.824Z"
+    },
+    {
+      "case_file": "cases/search-holdout.json",
+      "case_id": "r-rustls-handshake-encryption-level",
+      "url": "https://github.com/advisories/GHSA-2mjx-qc3c-rqvc",
+      "pass": true,
+      "sha256": "b363b9c66148eb2c04fc12e54c81d0fd6332cdbc1ce6db46e37998e2fb7d4376",
+      "checked_at": "2026-10-19T08:46:04.164Z"
+    },
+    {
+      "case_file": "cases/search-holdout.json",
+      "case_id": "r-got16-cross-origin-credentials",
+      "url": "https://github.com/sindresorhus/got/releases/tag/v16.0.0",
+      "pass": true,
+      "sha256": "45fbd386607d20f836b9d5bb31013af2e448f15865dddf860a76edfa6562173e",
+      "checked_at": "2026-10-19T08:46:04.500Z"
+    },
+    {
+      "case_file": "cases/search-holdout.json",
+      "case_id": "r-python-utcnow-deprecated",
+      "url": "https://docs.python.org/3/library/datetime.html",
+      "pass": true,
+      "sha256": "9f85feada74151ddba509a31b484eb276c370c8a40b1f2c2f901c2297507308e",
+      "checked_at": "2026-10-19T08:46:04.681Z"
+    },
+    {
+      "case_file": "cases/search-holdout.json",
+      "case_id": "o-next16-proxy-runtime",
+      "url": "https://nextjs.org/docs/app/guides/upgrading/version-16",
+      "pass": true,
+      "sha256": "4c1d0285842f99987e859a37df7dac13b4ac48a13efe95efee46450e624e047e",
+      "checked_at": "2026-10-19T08:46:04.979Z"
+    },
+    {
+      "case_file": "cases/search-holdout.json",
+      "case_id": "o-pg18-uuidv7",
+      "url": "https://www.postgresql.org/docs/18/functions-uuid.html",
+      "pass": true,
+      "sha256": "c8739d93ae7e95cfa065c3a63aa51fb7d943a3d67bf722ab136fc9f4a5155bda",
+      "checked_at": "2026-10-19T08:46:05.186Z"
+    },
+    {
+      "case_file": "cases/search-holdout.json",
+      "case_id": "o-rust2024-set-var-unsafe",
+      "url": "https://doc.rust-lang.org/edition-guide/rust-2024/newly-unsafe-functions.html",
+      "pass": true,
+      "sha256": "af46657dcd7179b90c45d03bebcec130c9b60b0716771610bde75efff690a19e",
+      "checked_at": "2026-10-19T08:46:05.304Z"
+    },
+    {
+      "case_file": "cases/search-holdout.json",
+      "case_id": "o-python315-tomllib-version",
+      "url": "https://docs.python.org/3/library/tomllib.html",
+      "pass": true,
+      "sha256": "7e46c554cff5a6c37f837e1efb30fe84a3e030bd32d6c0de85e8710fcc8750b0",
+      "checked_at": "2026-10-19T08:46:05.341Z"
+    },
+    {
+      "case_file": "cases/search-holdout.json",
+      "case_id": "o-eslint10-eslintrc",
+      "url": "https://github.com/eslint/eslint/releases/tag/v10.0.0",
+      "pass": true,
+      "sha256": "f6605f0b1aee322371dca57eee4313bcafee00c6e0db3522885865ea9e7bec3b",
+      "checked_at": "2026-10-19T08:46:05.773Z"
+    },
+    {
+      "case_file": "cases/search-holdout.json",
+      "case_id": "o-vitest5-sequential-removed",
+      "url": "https://vitest.dev/guide/migration",
+      "pass": true,
+      "sha256": "fb7e932e1c9a27252d6dd478236f40b6142dd9a7a7418b75762ef0e56d9667ee",
+      "checked_at": "2026-10-19T08:46:06.342Z"
+    },
+    {
+      "case_file": "cases/search-holdout.json",
+      "case_id": "o-commander15-node-version",
+      "url": "https://github.com/tj/commander.js/releases/tag/v15.0.0",
+      "pass": true,
+      "sha256": "1ebe8959af52ea4608e8121edc39ed500173f0a5b174ccc2dbf3f8541f8b09cd",
+      "checked_at": "2026-10-19T08:46:06.827Z"
+    },
+    {
+      "case_file": "cases/search-holdout.json",
+      "case_id": "o-tailwind4-theme-colors",
+      "url": "https://tailwindcss.com/docs/theme",
+      "pass": true,
+      "sha256": "4d3d7544bd2c445c4055f02031c0bd19ff0b9b3d84c31e6389067931aae5a81f",
+      "checked_at": "2026-10-19T08:46:07.099Z"
+    },
+    {
+      "case_file": "cases/search-holdout.json",
+      "case_id": "o-node-require-async-module",
+      "url": "https://nodejs.org/api/errors.html",
+      "pass": true,
+      "sha256": "094fbb981f91ecf9ce271d42073eec36d7e987050b670ced2d8690123cb99ad3",
+      "checked_at": "2026-10-19T08:46:07.367Z"
+    },
+    {
+      "case_file": "cases/search-holdout.json",
+      "case_id": "o-compose-watch-sync-restart",
+      "url": "https://docs.docker.com/compose/how-tos/file-watch/",
+      "pass": true,
+      "sha256": "63ebe6934427ed7d93718024434ffb24bbacfd85e32e53a2cb81a322fc749f8e",
+      "checked_at": "2026-10-19T08:46:07.590Z"
+    },
+    {
+      "case_file": "cases/search-holdout.json",
+      "case_id": "o-github-api-version-default",
+      "url": "https://docs.github.com/en/rest/about-the-rest-api/api-versions",
+      "pass": true,
+      "sha256": "e50ed5dda84feb062cd90f3bbcaf1df3604b2c9b8a804221e265912e3540b6d8",
+      "checked_at": "2026-10-19T08:46:08.094Z"
+    },
+    {
+      "case_file": "cases/search-holdout.json",
+      "case_id": "o-go124-tool-directive",
+      "url": "https://go.dev/doc/go1.24",
+      "pass": true,
+      "sha256": "b473edecb68dd15a335ce7899daa8781d0c773549a3c4d1cf5479076900c47c8",
+      "checked_at": "2026-10-19T08:46:08.326Z"
+    }
+  ]
+}

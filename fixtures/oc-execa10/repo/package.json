@@ -1,0 +1,7 @@
+{
+  "name": "release-command-runner",
+  "private": true,
+  "type": "module",
+  "scripts": {"test": "bun test tests"},
+  "dependencies": {"execa": "10.2.0"}
+}

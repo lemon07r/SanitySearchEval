@@ -1,0 +1,9 @@
+{
+  "brave": "brave:web",
+  "exa": "exa:auto",
+  "parallel": "parallel:fast",
+  "firecrawl": "firecrawl:search",
+  "tavily": "tavily:advanced",
+  "pilot_run": "results/2026-10-19T07-49-42-905Z-pilot",
+  "frozen_at": "2026-10-19T07:58:00Z"
+}

@@ -1,0 +1,10 @@
+[
+  {"id":"rv-got16-http2-agent","product":"revera","fixture_dir":"fixtures/rv-got16-http2-agent"},
+  {"id":"rv-commander15-negate","product":"revera","fixture_dir":"fixtures/rv-commander15-negate"},
+  {"id":"rv-got16-migrate","product":"revera","fixture_dir":"fixtures/rv-got16-migrate"},
+  {"id":"rv-ky2-migrate","product":"revera","fixture_dir":"fixtures/rv-ky2-migrate"},
+  {"id":"oc-execa10","product":"opencode","fixture_dir":"fixtures/oc-execa10"},
+  {"id":"oc-ky2","product":"opencode","fixture_dir":"fixtures/oc-ky2"},
+  {"id":"oc-ai7","product":"opencode","fixture_dir":"fixtures/oc-ai7"},
+  {"id":"oc-ts7-config","product":"opencode","fixture_dir":"fixtures/oc-ts7-config"}
+]

@@ -1,0 +1,9 @@
+.env
+.env.*
+!.env.example
+node_modules
+fixtures/*/.deps
+results/*/private
+results/*/work
+*.log
+.DS_Store

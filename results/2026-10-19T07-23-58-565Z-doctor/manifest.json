@@ -1,0 +1,254 @@
+{
+  "command": "doctor",
+  "start_time": "2026-10-19T07:23:58.566Z",
+  "end_time": "2026-10-19T07:24:12.771Z",
+  "profiles": [
+    {
+      "id": "brave:llm-context",
+      "provider": "brave",
+      "mode": "llm-context",
+      "baseline": true,
+      "search": {
+        "url": "https://api.search.brave.com/res/v1/llm/context",
+        "method": "POST",
+        "params": {
+          "q": "$query",
+          "count": 10,
+          "maximum_number_of_urls": 5,
+          "maximum_number_of_tokens": 4096,
+          "maximum_number_of_tokens_per_url": 1024,
+          "enable_source_metadata": true
+        }
+      },
+      "read": {
+        "url": "$result_url",
+        "method": "GET",
+        "params": {
+          "reader": "common-reader"
+        }
+      },
+      "blocked_reason": "OPTION_NOT_IN_PLAN: the key's Brave plan ('Free AI') does not include LLM Context (checked 2026-10-19)"
+    },
+    {
+      "id": "brave:web",
+      "provider": "brave",
+      "mode": "web",
+      "baseline": false,
+      "search": {
+        "url": "https://api.search.brave.com/res/v1/web/search",
+        "method": "GET",
+        "params": {
+          "q": "$query",
+          "count": 5,
+          "extra_snippets": true,
+          "text_decorations": false,
+          "result_filter": "web"
+        }
+      },
+      "read": {
+        "url": "$result_url",
+        "method": "GET",
+        "params": {
+          "reader": "common-reader"
+        }
+      }
+    },
+    {
+      "id": "exa:auto",
+      "provider": "exa",
+      "mode": "auto",
+      "baseline": true,
+      "search": {
+        "url": "https://api.exa.ai/search",
+        "method": "POST",
+        "params": {
+          "query": "$query",
+          "type": "auto",
+          "numResults": 5,
+          "contents": {
+            "highlights": {
+              "maxCharacters": 4000
+            }
+          }
+        }
+      },
+      "read": {
+        "url": "https://api.exa.ai/contents",
+        "method": "POST",
+        "params": {
+          "urls": [
+            "$result_url"
+          ],
+          "text": {
+            "maxCharacters": 60000
+          }
+        }
+      }
+    },
+    {
+      "id": "parallel:fast",
+      "provider": "parallel",
+      "mode": "fast",
+      "baseline": true,
+      "search": {
+        "url": "https://api.parallel.ai/v1/search",
+        "method": "POST",
+        "params": {
+          "objective": "$purpose_or_query",
+          "search_queries": [
+            "$query"
+          ],
+          "mode": "fast",
+          "max_chars_total": 20000,
+          "advanced_settings": {
+            "max_results": 5,
+            "excerpt_settings": {
+              "max_chars_per_result": 4000
+            }
+          }
+        }
+      },
+      "read": {
+        "url": "https://api.parallel.ai/v1/extract",
+        "method": "POST",
+        "params": {
+          "urls": [
+            "$result_url"
+          ],
+          "objective": "$purpose_or_query",
+          "advanced_settings": {
+            "full_content": {
+              "max_chars_per_result": 60000
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "firecrawl:search",
+      "provider": "firecrawl",
+      "mode": "search",
+      "baseline": true,
+      "search": {
+        "url": "https://api.firecrawl.dev/v2/search",
+        "method": "POST",
+        "params": {
+          "query": "$query",
+          "limit": 5,
+          "sources": [
+            "web"
+          ],
+          "highlights": true,
+          "timeout": 15000
+        }
+      },
+      "read": {
+        "url": "https://api.firecrawl.dev/v2/scrape",
+        "method": "POST",
+        "params": {
+          "url": "$result_url",
+          "formats": [
+            "markdown"
+          ],
+          "onlyMainContent": true,
+          "timeout": 20000
+        }
+      }
+    },
+    {
+      "id": "tavily:advanced",
+      "provider": "tavily",
+      "mode": "advanced",
+      "baseline": true,
+      "search": {
+        "url": "https://api.tavily.com/search",
+        "method": "POST",
+        "params": {
+          "query": "$query",
+          "search_depth": "advanced",
+          "chunks_per_source": 3,
+          "max_results": 5,
+          "include_answer": false,
+          "include_raw_content": false,
+          "include_usage": true,
+          "include_published_date": true,
+          "auto_parameters": false
+        }
+      },
+      "read": {
+        "url": "https://api.tavily.com/extract",
+        "method": "POST",
+        "params": {
+          "urls": [
+            "$result_url"
+          ],
+          "extract_depth": "basic",
+          "format": "markdown",
+          "include_usage": true
+        }
+      }
+    }
+  ],
+  "blocked_profiles": [
+    {
+      "id": "brave:llm-context",
+      "reason": "OPTION_NOT_IN_PLAN: the key's Brave plan ('Free AI') does not include LLM Context (checked 2026-10-19)"
+    }
+  ],
+  "limits": {
+    "search_tokens": 4000,
+    "read_tokens": 6000,
+    "results": 5,
+    "search_ms": 15000,
+    "read_ms": 20000,
+    "body_bytes": 3145728,
+    "redirects": 5,
+    "provider_concurrency": 2,
+    "concurrency": 3,
+    "max_cost_usd": 20,
+    "max_minutes": 45,
+    "revera": {
+      "calls": 8,
+      "wall_ms": 240000
+    },
+    "opencode": {
+      "calls": 12,
+      "wall_ms": 300000
+    },
+    "web_search": 2,
+    "web_read": 2
+  },
+  "provider_limits": {
+    "brave": {
+      "concurrency": 1,
+      "min_interval_ms": 1100
+    },
+    "exa": {
+      "concurrency": 2,
+      "min_interval_ms": 0
+    },
+    "parallel": {
+      "concurrency": 2,
+      "min_interval_ms": 0
+    },
+    "firecrawl": {
+      "concurrency": 2,
+      "min_interval_ms": 0
+    },
+    "tavily": {
+      "concurrency": 2,
+      "min_interval_ms": 0
+    }
+  },
+  "versions": {
+    "bun": "1.4.3",
+    "packages": {
+      "@mozilla/readability": "0.6.0",
+      "linkedom": "0.18.13",
+      "turndown": "7.2.4",
+      "@types/bun": "1.4.3",
+      "@types/turndown": "5.0.6",
+      "typescript": "5.9.3"
+    }
+  }
+}

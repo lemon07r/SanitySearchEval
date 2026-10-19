@@ -1,0 +1,4 @@
+[
+  {"id":"oc-ky2","product":"opencode","fixture_dir":"fixtures/oc-ky2"},
+  {"id":"rv-got16-http2-agent","product":"revera","fixture_dir":"fixtures/rv-got16-http2-agent"}
+]

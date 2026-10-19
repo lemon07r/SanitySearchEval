@@ -1,0 +1,13 @@
+{
+  "id": "oc-ts7-config",
+  "product": "opencode",
+  "title": "Bring the warehouse typecheck configuration forward",
+  "prompt": "The warehouse project has been upgraded to TypeScript 7.0.2 and its typecheck no longer passes. Update tsconfig.json only. Preserve strict checking of every source file, including future additions under src/, and keep the @app/* alias working. Do not modify source, dependencies or tests, disable checking or suppress diagnostics.",
+  "package_versions": {"typescript":"7.0.2"},
+  "visible_test_cmd":["bun","test","tests"],
+  "hidden_test_cmd":["bun","test","hidden"],
+  "protected_paths":["package.json","bun.lock","src/model.ts","src/index.ts","tests/compiler.ts","tests/compiler.test.ts"],
+  "expected_edit_paths":["tsconfig.json"],
+  "sources":["https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/","https://www.typescriptlang.org/docs/handbook/release-notes/typescript-6-0.html","https://github.com/microsoft/TypeScript/releases/tag/v7.0.2"],
+  "notes_private":"Installed tsc 7.0.2 rejects baseUrl, moduleResolution node10 and ES5 target. Removing baseUrl also requires relative ./src/* paths. Reference uses bundler resolution and ES2022. Hidden tests compile fresh valid/invalid alias consumers and strictness probes in src, so noCheck or excluding source fails. This task intentionally edits config, not src, as specified."
+}

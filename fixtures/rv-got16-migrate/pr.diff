@@ -1,0 +1,36 @@
+diff --git a/package.json b/package.json
+--- a/package.json
++++ b/package.json
+@@ -4,7 +4,6 @@
+   "type": "module",
+   "engines": {"node": ">=22.12.0"},
+   "dependencies": {
+-    "got": "^15.1.0",
+-    "http2-wrapper": "2.2.1"
++    "got": "^16.1.0"
+   }
+ }
+diff --git a/src/client.ts b/src/client.ts
+--- a/src/client.ts
++++ b/src/client.ts
+@@ -1,18 +1,16 @@
+ import got from 'got';
+-import http2wrapper from 'http2-wrapper';
+ import type {Snapshot, SnapshotResult} from './types';
+ 
+ export async function readSnapshot(url: string): Promise<SnapshotResult> {
+   const response = await got<Snapshot>(url, {
+     http2: true,
+-    request: http2wrapper.auto,
+-    agent: {http2: new http2wrapper.Agent({maxSessions: 1})},
++    agent: {http2: false},
+     responseType: 'json',
+     retry: {limit: 1},
+     timeout: {request: 2500},
+   });
+   return {
+-    status: Number(response.headers[':status'] ?? response.statusCode),
++    status: response.statusCode,
+     requestId: response.headers['x-request-id'] as string | undefined,
+     payload: response.body,
+   };

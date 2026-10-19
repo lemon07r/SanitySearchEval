@@ -1,0 +1,13 @@
+{
+  "id": "oc-ky2",
+  "product": "opencode",
+  "title": "Repair the inventory API client after its HTTP dependency update",
+  "prompt": "The inventory API client is failing after its HTTP dependency update. Restore the behavior documented in README, including telemetry, credentials, retries and deletion, by editing src/. Keep dependency versions and tests unchanged. The injectable fetch must remain usable so no live service is needed for tests.",
+  "package_versions": {"ky":"2.2.0"},
+  "visible_test_cmd":["bun","test","tests"],
+  "hidden_test_cmd":["bun","test","hidden"],
+  "protected_paths":["package.json","bun.lock","tests/client.test.ts"],
+  "expected_edit_paths":["src/client.ts"],
+  "sources":["https://github.com/sindresorhus/ky/releases/tag/v2.0.0"],
+  "notes_private":"Reference replaces prefixUrl with prefix, migrates beforeRequest and afterResponse to state objects, and avoids parsing a successful empty DELETE. beforeRetry already used the v2-compatible object signature and must retain its behavior. Hidden tests use 503 plus header capture instead of a 401 refresh flow, as permitted by the task brief."
+}

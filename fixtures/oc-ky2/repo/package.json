@@ -1,0 +1,7 @@
+{
+  "name": "inventory-api-client",
+  "private": true,
+  "type": "module",
+  "scripts": {"test": "bun test tests"},
+  "dependencies": {"ky": "2.2.0"}
+}

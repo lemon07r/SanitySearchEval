@@ -1,0 +1,7 @@
+{
+  "name": "warehouse-typecheck",
+  "private": true,
+  "type": "module",
+  "scripts": {"test": "bun test tests", "typecheck": "tsc --noEmit"},
+  "devDependencies": {"typescript": "7.0.2"}
+}

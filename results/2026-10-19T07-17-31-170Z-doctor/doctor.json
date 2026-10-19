@@ -1,0 +1,79 @@
+{
+  "rows": [
+    {
+      "provider": "agent LLM",
+      "status": "ok",
+      "results": 1,
+      "ms": 1880.121353,
+      "cost": {
+        "estimated_usd": 0.002712,
+        "metered_usd": null,
+        "basis": "estimated Anthropic list price, proxy billing unknown"
+      },
+      "usage": {
+        "input_tokens": 428,
+        "output_tokens": 50,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "model": "claude-opus-5-5"
+    },
+    {
+      "provider": "brave",
+      "profile": "brave:llm-context",
+      "search_status": "http_4xx",
+      "result_count": 0,
+      "search_ms": 315.97169400000007,
+      "read_status": "not attempted",
+      "read_ms": null,
+      "cost": {
+        "estimated_usd": 0.005,
+        "metered_usd": null,
+        "basis": "list-price estimate per attempted request"
+      },
+      "cost_fields": [
+        {
+          "kind": "search",
+          "cost": {
+            "estimated_usd": 0.005,
+            "metered_usd": null,
+            "basis": "list-price estimate per attempted request"
+          },
+          "reported_cost_fields": {}
+        }
+      ],
+      "requests": [
+        {
+          "kind": "search",
+          "url": "https://api.search.brave.com/res/v1/llm/context",
+          "method": "POST",
+          "params": {
+            "q": "TypeScript official documentation satisfies operator",
+            "count": 10,
+            "maximum_number_of_urls": 5,
+            "maximum_number_of_tokens": 4096,
+            "maximum_number_of_tokens_per_url": 1024,
+            "enable_source_metadata": [REDACTED]
+          },
+          "attempts": [
+            {
+              "status": 400,
+              "ms": 315.8976130000001,
+              "cache": {}
+            }
+          ],
+          "ms": 315.97169400000007,
+          "error": {
+            "class": "http_4xx",
+            "message": "HTTP 400"
+          },
+          "cost": {
+            "estimated_usd": 0.005,
+            "metered_usd": null,
+            "basis": "list-price estimate per attempted request"
+          }
+        }
+      ]
+    }
+  ]
+}

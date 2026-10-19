@@ -1,0 +1,537 @@
+{
+  "rows": [
+    {
+      "provider": "agent LLM",
+      "status": "ok",
+      "results": 1,
+      "ms": 2083.560851,
+      "cost": {
+        "estimated_usd": 0.002712,
+        "metered_usd": null,
+        "basis": "estimated Anthropic list price, proxy billing unknown"
+      },
+      "usage": {
+        "input_tokens": 428,
+        "output_tokens": 50,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0
+      },
+      "model": "claude-opus-5-5"
+    },
+    {
+      "provider": "brave",
+      "profile": "brave:llm-context",
+      "status": "BLOCKED",
+      "reason": "OPTION_NOT_IN_PLAN: the key's Brave plan ('Free AI') does not include LLM Context (checked 2026-10-19)",
+      "result_count": null,
+      "search_ms": null,
+      "read_ms": null,
+      "cost": {
+        "estimated_usd": null,
+        "metered_usd": null,
+        "basis": "profile blocked; not evaluated"
+      }
+    },
+    {
+      "provider": "brave",
+      "profile": "brave:web",
+      "search_status": "ok",
+      "result_count": 5,
+      "search_ms": 674.0110279999999,
+      "read_status": "ok",
+      "read_ms": 285.44921399999976,
+      "cost": {
+        "estimated_usd": 0.005,
+        "metered_usd": null,
+        "basis": "list-price estimate per attempted request; common reader: no API fee; transport not metered"
+      },
+      "extra_snippets_result_count": 5,
+      "extra_snippets_total": 20,
+      "cost_fields": [
+        {
+          "kind": "search",
+          "cost": {
+            "estimated_usd": 0.005,
+            "metered_usd": null,
+            "basis": "list-price estimate per attempted request"
+          },
+          "reported_cost_fields": {}
+        },
+        {
+          "kind": "read",
+          "cost": {
+            "estimated_usd": 0,
+            "metered_usd": null,
+            "basis": "common reader: no API fee; transport not metered"
+          },
+          "reported_cost_fields": {}
+        }
+      ],
+      "requests": [
+        {
+          "kind": "search",
+          "url": "https://api.search.brave.com/res/v1/web/search?q=TypeScript+official+documentation+satisfies+operator&count=5&extra_snippets=true&text_decorations=false&result_filter=web",
+          "method": "GET",
+          "params": {
+            "q": "TypeScript official documentation satisfies operator",
+            "count": 5,
+            "extra_snippets": true,
+            "text_decorations": false,
+            "result_filter": "web"
+          },
+          "attempts": [
+            {
+              "status": 200,
+              "ms": 673.8656499999997,
+              "cache": {}
+            }
+          ],
+          "ms": 674.0110279999999,
+          "cost": {
+            "estimated_usd": 0.005,
+            "metered_usd": null,
+            "basis": "list-price estimate per attempted request"
+          }
+        },
+        {
+          "kind": "read",
+          "url": "https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-9.html",
+          "method": "GET",
+          "params": null,
+          "attempts": [
+            {
+              "status": 200,
+              "ms": 220.24256700000024,
+              "cache": {
+                "age": "0",
+                "x-cache": "MISS"
+              }
+            }
+          ],
+          "ms": 285.44921399999976,
+          "cost": {
+            "estimated_usd": 0,
+            "metered_usd": null,
+            "basis": "common reader: no API fee; transport not metered"
+          }
+        }
+      ]
+    },
+    {
+      "provider": "exa",
+      "profile": "exa:auto",
+      "search_status": "ok",
+      "result_count": 5,
+      "search_ms": 5235.8730049999995,
+      "read_status": "ok",
+      "read_ms": 98.59742700000061,
+      "cost": {
+        "estimated_usd": 0.008,
+        "metered_usd": 0.008,
+        "basis": "list-price estimate per attempted request; costDollars.total reported by Exa (vendor estimate)"
+      },
+      "cost_fields": [
+        {
+          "kind": "search",
+          "cost": {
+            "estimated_usd": 0.007,
+            "metered_usd": 0.007,
+            "basis": "list-price estimate per attempted request; costDollars.total reported by Exa (vendor estimate)"
+          },
+          "reported_cost_fields": {
+            "costDollars": {
+              "total": 0.007,
+              "search": {
+                "neural": 0.007
+              }
+            }
+          }
+        },
+        {
+          "kind": "read",
+          "cost": {
+            "estimated_usd": 0.001,
+            "metered_usd": 0.001,
+            "basis": "list-price estimate per attempted request; costDollars.total reported by Exa (vendor estimate)"
+          },
+          "reported_cost_fields": {
+            "costDollars": {
+              "total": 0.001,
+              "contents": {
+                "text": 0.001
+              }
+            }
+          }
+        }
+      ],
+      "requests": [
+        {
+          "kind": "search",
+          "url": "https://api.exa.ai/search",
+          "method": "POST",
+          "params": {
+            "query": "TypeScript official documentation satisfies operator",
+            "type": "auto",
+            "numResults": 5,
+            "contents": {
+              "highlights": {
+                "maxCharacters": 4000
+              }
+            }
+          },
+          "attempts": [
+            {
+              "status": 200,
+              "ms": 5235.804974999999,
+              "request_id": "11407d910343002392993901f92c46d1",
+              "cache": {
+                "cf-cache-status": "DYNAMIC"
+              }
+            }
+          ],
+          "ms": 5235.8730049999995,
+          "cost": {
+            "estimated_usd": 0.007,
+            "metered_usd": 0.007,
+            "basis": "list-price estimate per attempted request; costDollars.total reported by Exa (vendor estimate)"
+          }
+        },
+        {
+          "kind": "read",
+          "url": "https://api.exa.ai/contents",
+          "method": "POST",
+          "params": {
+            "urls": [
+              "https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-9.html"
+            ],
+            "text": {
+              "maxCharacters": 60000
+            }
+          },
+          "attempts": [
+            {
+              "status": 200,
+              "ms": 98.52734299999975,
+              "request_id": "236a22b2cea3f6bf976ea0f59582f198",
+              "cache": {
+                "cf-cache-status": "DYNAMIC"
+              }
+            }
+          ],
+          "ms": 98.59742700000061,
+          "cost": {
+            "estimated_usd": 0.001,
+            "metered_usd": 0.001,
+            "basis": "list-price estimate per attempted request; costDollars.total reported by Exa (vendor estimate)"
+          }
+        }
+      ]
+    },
+    {
+      "provider": "parallel",
+      "profile": "parallel:fast",
+      "search_status": "ok",
+      "result_count": 5,
+      "search_ms": 864.0049949999993,
+      "read_status": "ok",
+      "read_ms": 648.8439509999989,
+      "cost": {
+        "estimated_usd": 0.002,
+        "metered_usd": null,
+        "basis": "list-price estimate per attempted request"
+      },
+      "cost_fields": [
+        {
+          "kind": "search",
+          "cost": {
+            "estimated_usd": 0.001,
+            "metered_usd": null,
+            "basis": "list-price estimate per attempted request"
+          },
+          "reported_cost_fields": {
+            "usage": [
+              {
+                "name": "sku_search",
+                "count": 1
+              }
+            ]
+          }
+        },
+        {
+          "kind": "read",
+          "cost": {
+            "estimated_usd": 0.001,
+            "metered_usd": null,
+            "basis": "list-price estimate per attempted request"
+          },
+          "reported_cost_fields": {
+            "usage": [
+              {
+                "name": "sku_extract_excerpts",
+                "count": 1
+              }
+            ]
+          }
+        }
+      ],
+      "requests": [
+        {
+          "kind": "search",
+          "url": "https://api.parallel.ai/v1/search",
+          "method": "POST",
+          "params": {
+            "objective": "Find TypeScript official satisfies operator documentation",
+            "search_queries": [
+              "TypeScript official documentation satisfies operator"
+            ],
+            "mode": "fast",
+            "max_chars_total": 20000,
+            "advanced_settings": {
+              "max_results": 5,
+              "excerpt_settings": {
+                "max_chars_per_result": 4000
+              }
+            }
+          },
+          "attempts": [
+            {
+              "status": 200,
+              "ms": 863.9418249999999,
+              "request_id": "search_d1c4394f5dc5dd027494f68e0ac48d41",
+              "cache": {}
+            }
+          ],
+          "ms": 864.0049949999993,
+          "cost": {
+            "estimated_usd": 0.001,
+            "metered_usd": null,
+            "basis": "list-price estimate per attempted request"
+          }
+        },
+        {
+          "kind": "read",
+          "url": "https://api.parallel.ai/v1/extract",
+          "method": "POST",
+          "params": {
+            "urls": [
+              "https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-9.html"
+            ],
+            "objective": "Find TypeScript official satisfies operator documentation",
+            "advanced_settings": {
+              "full_content": {
+                "max_chars_per_result": 60000
+              }
+            }
+          },
+          "attempts": [
+            {
+              "status": 200,
+              "ms": 648.7415359999995,
+              "request_id": "extract_77be9cbe384c7d640d5a69d966c22b96",
+              "cache": {}
+            }
+          ],
+          "ms": 648.8439509999989,
+          "cost": {
+            "estimated_usd": 0.001,
+            "metered_usd": null,
+            "basis": "list-price estimate per attempted request"
+          }
+        }
+      ]
+    },
+    {
+      "provider": "firecrawl",
+      "profile": "firecrawl:search",
+      "search_status": "ok",
+      "result_count": 5,
+      "search_ms": 766.8757989999995,
+      "read_status": "ok",
+      "read_ms": 393.76550399999905,
+      "cost": {
+        "estimated_usd": 0.00297,
+        "metered_usd": null,
+        "basis": "reported credits × Standard plan USD/credit; retries conservatively charged"
+      },
+      "cost_fields": [
+        {
+          "kind": "search",
+          "cost": {
+            "estimated_usd": 0.00198,
+            "metered_usd": null,
+            "basis": "reported credits × Standard plan USD/credit; retries conservatively charged"
+          },
+          "reported_cost_fields": {
+            "creditsUsed": 2
+          }
+        },
+        {
+          "kind": "read",
+          "cost": {
+            "estimated_usd": 0.00099,
+            "metered_usd": null,
+            "basis": "reported credits × Standard plan USD/credit; retries conservatively charged"
+          },
+          "reported_cost_fields": {}
+        }
+      ],
+      "requests": [
+        {
+          "kind": "search",
+          "url": "https://api.firecrawl.dev/v2/search",
+          "method": "POST",
+          "params": {
+            "query": "TypeScript official documentation satisfies operator",
+            "limit": 5,
+            "sources": [
+              "web"
+            ],
+            "highlights": true,
+            "timeout": 15000
+          },
+          "attempts": [
+            {
+              "status": 200,
+              "ms": 766.8249020000003,
+              "request_id": "01a1530b-dccf-766b-876a-1ddcba4bb108",
+              "cache": {}
+            }
+          ],
+          "ms": 766.8757989999995,
+          "cost": {
+            "estimated_usd": 0.00198,
+            "metered_usd": null,
+            "basis": "reported credits × Standard plan USD/credit; retries conservatively charged"
+          }
+        },
+        {
+          "kind": "read",
+          "url": "https://api.firecrawl.dev/v2/scrape",
+          "method": "POST",
+          "params": {
+            "url": "https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-9.html",
+            "formats": [
+              "markdown"
+            ],
+            "onlyMainContent": true,
+            "timeout": 20000
+          },
+          "attempts": [
+            {
+              "status": 200,
+              "ms": 393.61765300000116,
+              "cache": {}
+            }
+          ],
+          "ms": 393.76550399999905,
+          "cost": {
+            "estimated_usd": 0.00099,
+            "metered_usd": null,
+            "basis": "reported credits × Standard plan USD/credit; retries conservatively charged"
+          }
+        }
+      ]
+    },
+    {
+      "provider": "tavily",
+      "profile": "tavily:advanced",
+      "search_status": "ok",
+      "result_count": 5,
+      "search_ms": 2941.5605510000005,
+      "read_status": "ok",
+      "read_ms": 133.8519980000001,
+      "cost": {
+        "estimated_usd": 0.024,
+        "metered_usd": null,
+        "basis": "reported credits × pay-as-you-go USD/credit; retries conservatively charged"
+      },
+      "cost_fields": [
+        {
+          "kind": "search",
+          "cost": {
+            "estimated_usd": 0.016,
+            "metered_usd": null,
+            "basis": "reported credits × pay-as-you-go USD/credit; retries conservatively charged"
+          },
+          "reported_cost_fields": {
+            "usage": {
+              "credits": 2
+            }
+          }
+        },
+        {
+          "kind": "read",
+          "cost": {
+            "estimated_usd": 0.008,
+            "metered_usd": null,
+            "basis": "reported credits × pay-as-you-go USD/credit; retries conservatively charged"
+          },
+          "reported_cost_fields": {
+            "usage": {
+              "credits": 1
+            }
+          }
+        }
+      ],
+      "requests": [
+        {
+          "kind": "search",
+          "url": "https://api.tavily.com/search",
+          "method": "POST",
+          "params": {
+            "query": "TypeScript official documentation satisfies operator",
+            "search_depth": "advanced",
+            "chunks_per_source": 3,
+            "max_results": 5,
+            "include_answer": false,
+            "include_raw_content": false,
+            "include_usage": true,
+            "include_published_date": true,
+            "auto_parameters": false
+          },
+          "attempts": [
+            {
+              "status": 200,
+              "ms": 2941.4832939999997,
+              "request_id": "24937d8d-cfd1-427b-8c0c-4a014ba2b2df",
+              "cache": {}
+            }
+          ],
+          "ms": 2941.5605510000005,
+          "cost": {
+            "estimated_usd": 0.016,
+            "metered_usd": null,
+            "basis": "reported credits × pay-as-you-go USD/credit; retries conservatively charged"
+          }
+        },
+        {
+          "kind": "read",
+          "url": "https://api.tavily.com/extract",
+          "method": "POST",
+          "params": {
+            "urls": [
+              "https://dev.to/playfulprogramming/a-deep-dive-into-the-satisfies-operator-in-typescript-1b3n"
+            ],
+            "extract_depth": "basic",
+            "format": "markdown",
+            "include_usage": true
+          },
+          "attempts": [
+            {
+              "status": 200,
+              "ms": 133.76698599999872,
+              "request_id": "706bf9ac-9486-4c13-b6d8-0e285fb2cccf",
+              "cache": {}
+            }
+          ],
+          "ms": 133.8519980000001,
+          "cost": {
+            "estimated_usd": 0.008,
+            "metered_usd": null,
+            "basis": "reported credits × pay-as-you-go USD/credit; retries conservatively charged"
+          }
+        }
+      ]
+    }
+  ]
+}

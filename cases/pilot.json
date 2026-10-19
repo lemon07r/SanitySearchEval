@@ -1,0 +1,291 @@
+{
+  "version": 1,
+  "set": "pilot",
+  "frozen_at": "2026-10-19",
+  "note": "Mode-calibration cases only. Never reused in the holdout sets.",
+  "cases": [
+    {
+      "id": "p-rust-cve-2024-24576-linux",
+      "product": "revera",
+      "category": "security-advisory-conditions",
+      "trap": true,
+      "difficulty": "medium",
+      "question": "A Linux-only Rust service built with Rust 1.76 passes user-controlled arguments to std::process::Command::new(\"git\").args(...). Is it affected by CVE-2024-24576?",
+      "query": "CVE-2024-24576 Rust std::process::Command affected platforms",
+      "gold_facts": [
+        {
+          "id": "windows-only",
+          "text": "The vulnerability only concerns invoking batch files (.bat/.cmd) on Windows; no other platform or use is affected, so a Linux service is not affected.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "no other platform"
+            ],
+            [
+              "only[^.]{0,80}windows"
+            ],
+            [
+              "windows[^.]{0,30}only"
+            ]
+          ]
+        },
+        {
+          "id": "fixed-version",
+          "text": "Fixed in Rust 1.77.2.",
+          "load_bearing": false,
+          "patterns": [
+            [
+              "1\\.77\\.2"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://blog.rust-lang.org/2024/04/09/cve-2024-24576/"
+        },
+        {
+          "url": "https://github.com/rust-lang/rust/security/advisories/GHSA-q455-m56c-85mh"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24576"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://blog.rust-lang.org/2024/04/09/cve-2024-24576/",
+          "quote": "The severity of this vulnerability is critical if you are invoking batch files on Windows with untrusted arguments. No other platform or use is affected."
+        }
+      ],
+      "negative_conditions": "Answering 'affected' because Command::args is used would be a false positive.",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "p-express5-wildcard",
+      "product": "opencode",
+      "category": "migration",
+      "trap": false,
+      "difficulty": "easy",
+      "question": "After upgrading to Express 5, a catch-all route app.get('/*', handler) no longer works. What path syntax should replace it, and how do you also match the root path?",
+      "query": "Express 5 migration wildcard route /* path syntax",
+      "gold_facts": [
+        {
+          "id": "named-wildcard",
+          "text": "The wildcard must be named: use '/*splat' instead of '/*'.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "\\*splat"
+            ],
+            [
+              "wildcard[^.]{0,40}must have a name"
+            ]
+          ]
+        },
+        {
+          "id": "root-braces",
+          "text": "Use '/{*splat}' to also match the root path.",
+          "load_bearing": false,
+          "patterns": [
+            [
+              "\\{\\*splat\\}"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://expressjs.com/en/guide/migrating-5.html"
+        },
+        {
+          "url": "https://github.com/expressjs/express/releases/tag/v5.0.0"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://expressjs.com/en/guide/migrating-5.html",
+          "quote": "The wildcard * must have a name, matching the behavior of parameters"
+        }
+      ],
+      "negative_conditions": "Suggesting '(.*)' regex strings is the Express 4 / path-to-regexp 0.x style and is wrong for Express 5.",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "p-zod4-error-format",
+      "product": "opencode",
+      "category": "current-recommended-api",
+      "trap": false,
+      "difficulty": "medium",
+      "question": "In Zod 4, what is the recommended replacement for ZodError's .format() and .flatten() methods?",
+      "query": "Zod 4 ZodError format flatten deprecated replacement",
+      "gold_facts": [
+        {
+          "id": "treeify",
+          "text": ".format() and .flatten() are deprecated; use the top-level z.treeifyError() function.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "treeifyError"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://zod.dev/v4/changelog"
+        },
+        {
+          "url": "https://zod.dev/error-formatting"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://zod.dev/v4/changelog",
+          "quote": "The .format() method on ZodError has been deprecated. Instead use the top-level z.treeifyError() function."
+        }
+      ],
+      "negative_conditions": "z.prettifyError is a different (string) formatter; not the structured replacement.",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "p-rust-lazylock-version",
+      "product": "opencode",
+      "category": "exact-fact",
+      "trap": false,
+      "difficulty": "easy",
+      "question": "Which Rust version stabilized std::sync::LazyLock, so a crate can drop once_cell::sync::Lazy?",
+      "query": "std::sync::LazyLock stabilized Rust version",
+      "gold_facts": [
+        {
+          "id": "since-1.80",
+          "text": "LazyLock is stable since Rust 1.80.0.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "lazy ?lock",
+              "1\\.80"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://doc.rust-lang.org/std/sync/struct.LazyLock.html"
+        },
+        {
+          "url": "https://blog.rust-lang.org/2024/07/25/Rust-1.80.0/"
+        },
+        {
+          "url": "https://releases.rs/docs/1.80.0/"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://doc.rust-lang.org/std/sync/struct.LazyLock.html",
+          "quote": "1.80.0"
+        }
+      ],
+      "negative_conditions": "",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "p-pg18-data-checksums",
+      "product": "revera",
+      "category": "version-default-semantics",
+      "trap": false,
+      "difficulty": "medium",
+      "question": "A deployment script runs initdb for PostgreSQL 18 and later uses pg_upgrade from a PostgreSQL 16 cluster created with default settings. What changed about the initdb default that can break this, and how is it avoided?",
+      "query": "PostgreSQL 18 initdb default data checksums pg_upgrade",
+      "gold_facts": [
+        {
+          "id": "checksums-default",
+          "text": "PostgreSQL 18 initdb enables data checksums by default; use --no-data-checksums, since pg_upgrade requires matching checksum settings.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "checksums?",
+              "default",
+              "(initdb|enable)"
+            ]
+          ]
+        },
+        {
+          "id": "no-data-checksums",
+          "text": "Disable with initdb --no-data-checksums.",
+          "load_bearing": false,
+          "patterns": [
+            [
+              "--?no-data-checksums"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://www.postgresql.org/docs/18/release-18.html"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/release/18.0/"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/18/app-initdb.html"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/current/release-18.html"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://www.postgresql.org/docs/18/release-18.html",
+          "quote": "Change initdb default to enable data checksums (Greg Sabino Mullane)"
+        }
+      ],
+      "negative_conditions": "",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "p-vitest5-attachments-dir",
+      "product": "opencode",
+      "category": "release-note",
+      "trap": false,
+      "difficulty": "hard",
+      "question": "Our .gitignore ignores Vitest's test attachments directory. After upgrading to Vitest 5, attachments appear in a new location. What is the new default attachmentsDir?",
+      "query": "Vitest 5 attachmentsDir default changed",
+      "gold_facts": [
+        {
+          "id": "new-dir",
+          "text": "The default attachmentsDir changed from .vitest-attachements/ to .vitest/attachments/.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "\\.vitest/attachments"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://github.com/vitest-dev/vitest/releases/tag/v5.0.0"
+        },
+        {
+          "url": "https://vitest.dev/guide/migration"
+        },
+        {
+          "url": "https://vitest.dev/config/attachmentsdir"
+        },
+        {
+          "url": "https://vitest.dev/config/",
+          "prefix": true
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://github.com/vitest-dev/vitest/releases/tag/v5.0.0",
+          "quote": "Default attachmentsDir from .vitest-attachements/ to .vitest/attachments/"
+        }
+      ],
+      "negative_conditions": "",
+      "checked_at": "2026-10-19"
+    }
+  ]
+}

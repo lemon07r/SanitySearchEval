@@ -1,0 +1,29 @@
+diff --git a/package.json b/package.json
+--- a/package.json
++++ b/package.json
+@@ -4,6 +4,6 @@
+   "type": "module",
+   "engines": {"node": ">=22.12.0"},
+   "dependencies": {
+-    "commander": "^14.0.3"
++    "commander": "^15.0.0"
+   }
+ }
+diff --git a/src/cli.ts b/src/cli.ts
+--- a/src/cli.ts
++++ b/src/cli.ts
+@@ -5,10 +5,12 @@
+   const command = new Command()
+     .name('deploy-status')
+     .option('--no-color', 'Disable colors')
+     .option('--color', 'Enable colors')
+-    .option('--quiet', 'Suppress the status line');
++    .option('--quiet', 'Suppress the status line')
++    .option('--tag <tag>', 'Append the deployment tag');
+   command.parse(argv, {from: 'user'});
+   const options = command.opts();
+   if (options.quiet) return '';
+-  return success(label, Boolean(options.color));
++  const text = options.tag ? `${label} (${options.tag})` : label;
++  return success(text, Boolean(options.color));
+ }

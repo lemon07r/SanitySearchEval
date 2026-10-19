@@ -1,0 +1,8 @@
+{
+  "brave": {"grounding":{"generic":[{"url":"https://example.com/docs","title":"Library v2","snippets":["Use library.validate() in 2.0.0."]}]},"sources":{"https://example.com/docs":{"hostname":"example.com","age":["date","2026-10-01","recent","iso"]}}},
+  "braveWeb": {"web":{"results":[{"url":"https://example.com/docs","title":"Library v2","description":"Use library.validate()","extra_snippets":["in 2.0.0."],"page_age":"2026-10-01","age":"yesterday"}]}},
+  "exa": {"requestId":"exa-request","results":[{"url":"https://example.com/docs","title":"Library v2","publishedDate":"2026-10-01","highlights":["Use library.validate() in 2.0.0."],"text":"Use library.validate() in 2.0.0."}],"statuses":[{"id":"https://example.com/docs","status":"success","source":"cached"}],"costDollars":{"total":0.007}},
+  "parallel": {"search_id":"parallel-request","results":[{"url":"https://example.com/docs","title":"Library v2","publish_date":"2026-10-01","excerpts":["Use library.validate() in 2.0.0."],"full_content":"Use library.validate() in 2.0.0."}],"usage":[{"name":"search_fast","count":1}]},
+  "firecrawl": {"success":true,"id":"fire-request","creditsUsed":2,"data":{"web":[{"url":"https://example.com/docs","title":"Library v2","description":"Use library.validate() in 2.0.0.","markdown":"# Docs\n\nUse library.validate() in 2.0.0.","metadata":{"statusCode":200,"cacheState":"hit","cachedAt":"2026-10-19"}}]}},
+  "tavily": {"request_id":"tavily-request","usage":{"credits":2},"results":[{"url":"https://example.com/docs","title":"Library v2","content":"Use library.validate() in 2.0.0.","raw_content":"Use library.validate() in 2.0.0.","published_date":"2026-10-01"}]}
+}

@@ -1,0 +1,8 @@
+{
+  "name": "catalog-assistant",
+  "private": true,
+  "type": "module",
+  "scripts": {"test": "bun test tests", "typecheck": "tsc --noEmit"},
+  "dependencies": {"ai": "7.0.143", "zod": "4.3.6"},
+  "devDependencies": {"typescript": "7.0.2"}
+}

@@ -1,0 +1,230 @@
+{
+  "run_id": "2026-10-19T08-26-06-898Z-eval",
+  "command": "eval",
+  "signature": "01f3922230dcc32cb46730d8cfd2e73c5ad10adf142ebc3fbadec3123ad728c7",
+  "cli_args": [
+    "eval",
+    "--suite",
+    "agents",
+    "--cases",
+    "cases/agent-confirmation.json",
+    "--providers",
+    "exa,firecrawl,none",
+    "--reps",
+    "2",
+    "--concurrency",
+    "4",
+    "--max-minutes",
+    "120",
+    "--max-cost-usd",
+    "30"
+  ],
+  "seed": 42,
+  "profiles": [
+    {
+      "id": "exa:auto",
+      "provider": "exa",
+      "mode": "auto",
+      "baseline": true,
+      "search": {
+        "url": "https://api.exa.ai/search",
+        "method": "POST",
+        "params": {
+          "query": "$query",
+          "type": "auto",
+          "numResults": 5,
+          "contents": {
+            "highlights": {
+              "maxCharacters": 4000
+            }
+          }
+        }
+      },
+      "read": {
+        "url": "https://api.exa.ai/contents",
+        "method": "POST",
+        "params": {
+          "urls": [
+            "$result_url"
+          ],
+          "text": {
+            "maxCharacters": 60000
+          }
+        }
+      }
+    },
+    {
+      "id": "firecrawl:search",
+      "provider": "firecrawl",
+      "mode": "search",
+      "baseline": true,
+      "search": {
+        "url": "https://api.firecrawl.dev/v2/search",
+        "method": "POST",
+        "params": {
+          "query": "$query",
+          "limit": 5,
+          "sources": [
+            "web"
+          ],
+          "highlights": true,
+          "timeout": 15000
+        }
+      },
+      "read": {
+        "url": "https://api.firecrawl.dev/v2/scrape",
+        "method": "POST",
+        "params": {
+          "url": "$result_url",
+          "formats": [
+            "markdown"
+          ],
+          "onlyMainContent": true,
+          "timeout": 20000
+        }
+      }
+    }
+  ],
+  "blocked_profiles": [],
+  "limits": {
+    "search_tokens": 4000,
+    "read_tokens": 6000,
+    "results": 5,
+    "search_ms": 15000,
+    "read_ms": 20000,
+    "body_bytes": 3145728,
+    "redirects": 5,
+    "provider_concurrency": 2,
+    "concurrency": 3,
+    "max_cost_usd": 20,
+    "max_minutes": 45,
+    "revera": {
+      "calls": 8,
+      "wall_ms": 240000
+    },
+    "opencode": {
+      "calls": 12,
+      "wall_ms": 300000
+    },
+    "web_search": 2,
+    "web_read": 2
+  },
+  "provider_limits": {
+    "brave": {
+      "concurrency": 1,
+      "min_interval_ms": 1100
+    },
+    "exa": {
+      "concurrency": 2,
+      "min_interval_ms": 0
+    },
+    "parallel": {
+      "concurrency": 2,
+      "min_interval_ms": 0
+    },
+    "firecrawl": {
+      "concurrency": 1,
+      "min_interval_ms": 6500
+    },
+    "tavily": {
+      "concurrency": 2,
+      "min_interval_ms": 0
+    }
+  },
+  "prices": {
+    "brave": 0.005,
+    "exa": {
+      "auto": 0.007,
+      "deep-lite": 0.012,
+      "read": 0.001
+    },
+    "parallel": {
+      "fast": 0.001,
+      "advanced": 0.005,
+      "read": 0.001
+    },
+    "firecrawl_credit": 0.00099,
+    "tavily_credit": 0.008,
+    "model": {
+      "input": 4,
+      "output": 20,
+      "cache_read": 0.2,
+      "cache_write": 5
+    }
+  },
+  "model_settings": {
+    "max_tokens": 16000,
+    "thinking": {
+      "type": "adaptive"
+    },
+    "output_config": {
+      "effort": "medium"
+    }
+  },
+  "models": {
+    "agent": {
+      "base": "<private endpoint>",
+      "model": "factory/claude-opus-5-5"
+    },
+    "judge": {
+      "base": "<private endpoint>",
+      "model": "factory/claude-opus-5-5"
+    }
+  },
+  "prompts": {
+    "version": "1.0.0",
+    "revera": {
+      "text": "You are a cautious PR reviewer. Review the supplied PR diff for real defects. Prioritize repository facts; check exact package versions in package.json. Use web search only when it helps verify an external library contract for those versions. Distinguish documented source facts from code evidence. Never put private code or proprietary identifiers in search queries: search for public library names, versions, and API names only. Report only defects you can ground. Mark uncertain findings confidence low. Cite only URLs you actually read or saw in tool output. It is fine to report no findings. Finish by calling submit_review with a summary and findings.",
+      "sha256": "7a073bf98c7c43974bf7f9b6597adf97af962770b7b0c3b7705c236401e975f8"
+    },
+    "opencode": {
+      "text": "Complete the user's task by editing repository files. Prioritize repository facts and test output. Verify exact package versions in package.json. Use web search only when helpful. Never put private code or proprietary identifiers in search queries: search for public library names, versions, and API names only. Do not modify tests or package.json. Run the visible tests. Stop when done by calling finish with a summary.",
+      "sha256": "f68239da0a01ee20ec5ec322402ad5aafa9461b715cb60acac1862fbc8f6b23a"
+    },
+    "judge": {
+      "text": "Evaluate only the supplied visible source text against the question and gold facts. Provider identity is blinded. Call record_judgment with support (supported, contradicted, insufficient), version_applicable (yes, no, unclear), authority (primary, secondary, low), quote, confidence from 0 to 1, and reason. Do not use outside knowledge to fill missing evidence. Your judgment is supporting evidence, never a replacement for deterministic scores.",
+      "sha256": "18f2a3069ca69d1210fd1d75ea2f7543da1ea0dd3a313015b72984dd4347760f"
+    }
+  },
+  "case_files": [
+    {
+      "path": "cases/agent-confirmation.json",
+      "sha256": "52324443f62fac69a4644ecebce8d8e170c5bb82cbd71a6b71cc6e05107ba4a8"
+    },
+    {
+      "path": "fixtures/oc-ai7/task.json",
+      "sha256": "251b7cef7206a918fdb5318f0a574dbf6bfc3fb1b0634bbbb3483adbd5a66f2b"
+    },
+    {
+      "path": "fixtures/rv-commander15-negate/task.json",
+      "sha256": "fcb66837e20ade46066a69ac4602c98124f8703c76bc2ade8649c0d479f4f67a"
+    },
+    {
+      "path": "fixtures/rv-got16-http2-agent/task.json",
+      "sha256": "422ccb0aac7d63981a441bbd566bd02bbbc3ced946c6c2f5c7d3e503062adb10"
+    },
+    {
+      "path": "fixtures/rv-got16-migrate/task.json",
+      "sha256": "089b6d8d2cc68813ee4f72c6949fd4e135f4f105bef5526e28d73aa3003d4c5c"
+    }
+  ],
+  "versions": {
+    "bun": "1.4.3",
+    "packages": {
+      "@mozilla/readability": "0.6.0",
+      "linkedom": "0.18.13",
+      "turndown": "7.2.4",
+      "@types/bun": "1.4.3",
+      "@types/turndown": "5.0.6",
+      "typescript": "5.9.3"
+    }
+  },
+  "start_time": "2026-10-19T08:26:06.899Z",
+  "end_time": "2026-10-19T08:32:05.629Z",
+  "estimated_remaining_usd": 11.40752,
+  "resume_history": [],
+  "stop_reason": null,
+  "completed_units": 24,
+  "planned_units": 24,
+  "accounted_spend_usd": 2.4691774000000004
+}

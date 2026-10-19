@@ -1,0 +1,1264 @@
+{
+  "version": 1,
+  "set": "search-holdout",
+  "frozen_at": "2026-10-19",
+  "note": "Held-out retrieval cases. Authored from primary sources before any provider call. Only question and query are provider/agent visible.",
+  "cases": [
+    {
+      "id": "r-pymongo-host-injection",
+      "product": "revera",
+      "category": "security-advisory-conditions",
+      "trap": false,
+      "difficulty": "medium",
+      "question": "A multi-tenant Python service on pymongo 4.18.1 builds its MongoDB connection string by inserting a tenant-supplied hostname fragment into the host portion of the URI. Is it affected by the 2026 PyMongo connection-string host injection advisory, and which version fixes it?",
+      "query": "PyMongo connection string host injection percent-encoded advisory 2026",
+      "gold_facts": [
+        {
+          "id": "mechanism",
+          "text": "PyMongo percent-decoded the host section before splitting, so encoded ',' or ':' (%2C/%3A) inject an extra attacker-chosen host; apps interpolating untrusted input into the host portion are affected.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "percent",
+              "(host|seed list)",
+              "(%2C|%3A|delimiter|comma)"
+            ]
+          ]
+        },
+        {
+          "id": "fix",
+          "text": "Fixed in PyMongo 4.18.2 (affected >= 3.5.0, <= 4.18.1).",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "4\\.18\\.2"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://github.com/advisories/GHSA-vp6j-j7w5-5xjj"
+        },
+        {
+          "url": "https://github.com/mongodb/mongo-python-driver/security/advisories/GHSA-vp6j-j7w5-5xjj"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/GHSA-vp6j-j7w5-5xjj"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-96748"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://github.com/advisories/GHSA-vp6j-j7w5-5xjj",
+          "quote": "Fixed in PyMongo 4.18.2."
+        }
+      ],
+      "negative_conditions": "Unix domain socket paths are not affected.",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "r-strawberry-async-permission",
+      "product": "revera",
+      "category": "security-advisory-conditions",
+      "trap": true,
+      "difficulty": "hard",
+      "question": "Our API uses strawberry-graphql 0.300.0 and every custom permission class declares `async def has_permission(...)`. Is it affected by the 2026 Strawberry advisory where permission checks treat an awaitable authorization result as truthy?",
+      "query": "Strawberry GraphQL advisory permission has_permission awaitable truthy affected",
+      "gold_facts": [
+        {
+          "id": "async-not-affected",
+          "text": "Permissions declared with async def has_permission() (or a plain def returning a bool) are not affected; only a plain def that returns an awaitable is.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "async def has_permission",
+              "not affected"
+            ],
+            [
+              "plain .?def.{0,40}returning an awaitable"
+            ],
+            [
+              "def.{0,60}returns? an awaitable[^.]{0,80}(treated as|synchronous)"
+            ]
+          ]
+        },
+        {
+          "id": "fix",
+          "text": "Affected >= 0.217.0, <= 0.326.0; fixed in 0.326.1.",
+          "load_bearing": false,
+          "patterns": [
+            [
+              "0\\.326\\.1"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://github.com/advisories/GHSA-pfvf-fwfp-25mp"
+        },
+        {
+          "url": "https://github.com/strawberry-graphql/strawberry/security/advisories/GHSA-pfvf-fwfp-25mp"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/GHSA-pfvf-fwfp-25mp"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-107728"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://github.com/advisories/GHSA-pfvf-fwfp-25mp",
+          "quote": "Permissions declared with async def has_permission() , or a plain def returning a boolean, are not affected."
+        }
+      ],
+      "negative_conditions": "Version 0.300.0 is in the affected range, so a version-only check would wrongly flag it; the vulnerable code path is not reachable with async def permissions.",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "r-uv-wheel-windows",
+      "product": "revera",
+      "category": "security-advisory-conditions",
+      "trap": true,
+      "difficulty": "medium",
+      "question": "Our Linux-only CI containers install Python dependencies with uv 0.12.10. Are they exposed to the 2026 uv wheel-extraction path traversal advisory?",
+      "query": "uv wheel extraction path traversal advisory 0.12.18",
+      "gold_facts": [
+        {
+          "id": "windows-only",
+          "text": "The vulnerability only affects Windows hosts; no other platforms are affected.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "only affects windows"
+            ],
+            [
+              "no other platforms"
+            ],
+            [
+              "on windows[^.]{0,120}(only|no other)"
+            ]
+          ]
+        },
+        {
+          "id": "fix",
+          "text": "Affected 0.12.7 to before 0.12.18; fixed in 0.12.18.",
+          "load_bearing": false,
+          "patterns": [
+            [
+              "0\\.12\\.18"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://github.com/advisories/GHSA-2cv4-cqwr-gwf7"
+        },
+        {
+          "url": "https://github.com/astral-sh/uv/security/advisories/GHSA-2cv4-cqwr-gwf7"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/GHSA-2cv4-cqwr-gwf7"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-104843"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://github.com/advisories/GHSA-2cv4-cqwr-gwf7",
+          "quote": "This vulnerability only affects Windows hosts; no other platforms are affected."
+        }
+      ],
+      "negative_conditions": "The version is in range but the platform makes it unreachable.",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "r-python312-tarfile-default-filter",
+      "product": "revera",
+      "category": "version-inapplicable-docs",
+      "trap": true,
+      "difficulty": "hard",
+      "question": "A PR for a service pinned to Python 3.12 removes `filter='data'` from a `tarfile.extractall()` call, arguing that the safe 'data' filter is already the default. Is that true on Python 3.12?",
+      "query": "Python tarfile extractall default extraction filter data version",
+      "gold_facts": [
+        {
+          "id": "default-3.14",
+          "text": "The default extraction filter became 'data' only in Python 3.14; before that the default was equivalent to fully_trusted (3.12/3.13 emit a DeprecationWarning).",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "3\\.14",
+              "default (extraction )?filter",
+              "data"
+            ],
+            [
+              "3\\.14",
+              "fully_trusted"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://docs.python.org/3/library/tarfile.html"
+        },
+        {
+          "url": "https://docs.python.org/3.14/library/tarfile.html"
+        },
+        {
+          "url": "https://docs.python.org/3.12/library/tarfile.html"
+        },
+        {
+          "url": "https://docs.python.org/3.13/library/tarfile.html"
+        },
+        {
+          "url": "https://docs.python.org/3.15/library/tarfile.html"
+        },
+        {
+          "url": "https://docs.python.org/3/whatsnew/3.14.html"
+        },
+        {
+          "url": "https://peps.python.org/pep-0706/"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://docs.python.org/3/library/tarfile.html",
+          "quote": "Changed in version 3.14: Set the default extraction filter to data , which disallows some dangerous features such as links to absolute paths or paths outside of the destination. Previously, the filter strategy was equivalent to fully_trusted ."
+        }
+      ],
+      "negative_conditions": "Current docs describe the 3.14+ default; applying them to 3.12 is the trap.",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "r-go-loopvar-go121-module",
+      "product": "revera",
+      "category": "version-inapplicable-docs",
+      "trap": true,
+      "difficulty": "medium",
+      "question": "A Go module whose go.mod says `go 1.21` is now built with the Go 1.25 toolchain. A PR removes `v := v` copies before goroutines inside for loops, saying Go 1.22+ gives each iteration a fresh variable. Does the new per-iteration semantics apply to this module?",
+      "query": "Go 1.22 loop variable per-iteration semantics go.mod go line version",
+      "gold_facts": [
+        {
+          "id": "gated-by-go-line",
+          "text": "The new loop semantics only apply to packages in modules whose go.mod declares go 1.22 or later; a module declaring go 1.21 keeps the old semantics.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "(only apply|controlled by)[^.]{0,120}(go\\.mod|go line|language version)",
+              "1\\.22"
+            ],
+            [
+              "modules? that (declare|contains a go line declaring) go 1\\.22"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://go.dev/blog/loopvar-preview"
+        },
+        {
+          "url": "https://go.dev/wiki/LoopvarExperiment"
+        },
+        {
+          "url": "https://go.dev/doc/go1.22"
+        },
+        {
+          "url": "https://go.dev/ref/spec"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://go.dev/blog/loopvar-preview",
+          "quote": "the new semantics will only apply in packages contained in modules that declare go 1.22 or later in their go.mod files"
+        }
+      ],
+      "negative_conditions": "Assuming the toolchain version decides the semantics is the trap.",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "r-quart-debug-print-version",
+      "product": "revera",
+      "category": "fixed-or-inapplicable-version",
+      "trap": true,
+      "difficulty": "medium",
+      "question": "Our Quart app is pinned to quart 0.22.0. Is it affected by the 2026 advisory about Quart printing raw request bodies (including passwords) to stdout?",
+      "query": "Quart advisory request body printed stdout Body.__await__ affected versions",
+      "gold_facts": [
+        {
+          "id": "only-0.23.0",
+          "text": "Only Quart 0.23.0 contains the stray print; it is confirmed absent in 0.22.0 (fixed in 0.23.1).",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "absent in 0\\.22"
+            ],
+            [
+              "not present in 0\\.22"
+            ],
+            [
+              "quart\\s*(=|==)\\s*0\\.23\\.0"
+            ],
+            [
+              "only[^.]{0,40}0\\.23\\.0"
+            ]
+          ]
+        },
+        {
+          "id": "fix",
+          "text": "Fixed in 0.23.1.",
+          "load_bearing": false,
+          "patterns": [
+            [
+              "0\\.23\\.1"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://github.com/advisories/GHSA-v853-p72q-4cfw"
+        },
+        {
+          "url": "https://github.com/pallets/quart/security/advisories/GHSA-v853-p72q-4cfw"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/GHSA-v853-p72q-4cfw"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://github.com/advisories/GHSA-v853-p72q-4cfw",
+          "quote": "Confirmed present in 0.23.0, confirmed absent in 0.22.0."
+        }
+      ],
+      "negative_conditions": "",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "r-got15-strict-content-length",
+      "product": "revera",
+      "category": "library-default-semantics",
+      "trap": false,
+      "difficulty": "hard",
+      "question": "After upgrading the Node HTTP client got from v14 to v15, requests to a legacy upstream that sends a wrong Content-Length header started failing. What default changed in got 15 and how is the old behavior restored?",
+      "query": "got 15 breaking changes Content-Length mismatch default",
+      "gold_facts": [
+        {
+          "id": "strict-default",
+          "text": "strictContentLength now defaults to true, so got throws ContentLengthMismatchError; set {strictContentLength: false} to restore the old behavior.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "strictContentLength",
+              "(default|true)"
+            ],
+            [
+              "ContentLengthMismatchError"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://github.com/sindresorhus/got/releases/tag/v15.0.0"
+        },
+        {
+          "url": "https://github.com/sindresorhus/got/blob/main/documentation/2-options.md"
+        },
+        {
+          "url": "https://github.com/sindresorhus/got/blob/main/documentation/8-errors.md"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://github.com/sindresorhus/got/releases/tag/v15.0.0",
+          "quote": "Got now throws a ContentLengthMismatchError by default if Content-Length doesn't match the actual body size. Set {strictContentLength: false} to restore the old behavior."
+        }
+      ],
+      "negative_conditions": "",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "r-chalk6-force-color",
+      "product": "revera",
+      "category": "upstream-breaking-behavior",
+      "trap": false,
+      "difficulty": "hard",
+      "question": "A CI job sets FORCE_COLOR=1 and a PR upgrades chalk from 5 to 6. Does chalk 6 change how a numeric FORCE_COLOR value and ansi256() colors behave?",
+      "query": "chalk 6 FORCE_COLOR numeric level ansi256 changes",
+      "gold_facts": [
+        {
+          "id": "exact-level",
+          "text": "chalk 6 treats a numeric FORCE_COLOR as an exact level.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "numeric FORCE_COLOR",
+              "exact level"
+            ]
+          ]
+        },
+        {
+          "id": "downsample",
+          "text": "ansi256()/bgAnsi256() are downsampled to 16 colors at level 1.",
+          "load_bearing": false,
+          "patterns": [
+            [
+              "ansi256",
+              "16 colors"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://github.com/chalk/chalk/releases/tag/v6.0.0"
+        },
+        {
+          "url": "https://github.com/chalk/chalk/pull/688"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://github.com/chalk/chalk/releases/tag/v6.0.0",
+          "quote": "Treat a numeric FORCE_COLOR as an exact level"
+        }
+      ],
+      "negative_conditions": "",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "r-mise-untrusted-shell-args",
+      "product": "revera",
+      "category": "security-advisory-conditions",
+      "trap": false,
+      "difficulty": "hard",
+      "question": "Developers run mise 2026.7.10 and open untrusted repositories. Can a repository's local .mise.toml [settings] cause command execution without a trust prompt, and which mise version fixes it?",
+      "query": "mise advisory untrusted .mise.toml settings shell args command execution",
+      "gold_facts": [
+        {
+          "id": "shell-args",
+          "text": "Untrusted local .mise.toml [settings] can set shell interpreter args (default_inline/default_file shell_args), giving command execution with no trust prompt.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "shell.?args"
+            ],
+            [
+              "shell[- ]interpreter",
+              "(settings|untrusted)"
+            ]
+          ]
+        },
+        {
+          "id": "fix",
+          "text": "Affected <= 2026.7.13; fixed in 2026.7.14.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "2026\\.7\\.14"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://github.com/advisories/GHSA-g74g-rg72-j2p3"
+        },
+        {
+          "url": "https://github.com/jdx/mise/security/advisories/GHSA-g74g-rg72-j2p3"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/GHSA-g74g-rg72-j2p3"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103929"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://github.com/advisories/GHSA-g74g-rg72-j2p3",
+          "quote": "Untrusted local .mise.toml [settings] can set the shell interpreter args"
+        }
+      ],
+      "negative_conditions": "",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "r-rustls-handshake-encryption-level",
+      "product": "revera",
+      "category": "security-advisory-conditions",
+      "trap": false,
+      "difficulty": "medium",
+      "question": "A Rust service's Cargo.lock pins rustls 0.23.40. Is it in the affected range of the 2026 rustls advisory about TLS 1.3 handshake messages accepted at the wrong encryption level, and can an attacker use it to alter a handshake?",
+      "query": "rustls advisory TLS 1.3 handshake messages wrong encryption level affected versions",
+      "gold_facts": [
+        {
+          "id": "range",
+          "text": "Affects rustls 0.23.13 through 0.23.44 inclusive; fixed in 0.23.45.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "0\\.23\\.13",
+              "0\\.23\\.4[45]"
+            ]
+          ]
+        },
+        {
+          "id": "impact",
+          "text": "The transcript is still authenticated, so an attacker cannot alter or complete a handshake; the effect is plaintext handshake messages not being rejected.",
+          "load_bearing": false,
+          "patterns": [
+            [
+              "transcript is still authenticated"
+            ],
+            [
+              "cannot use this to alter"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://github.com/advisories/GHSA-2mjx-qc3c-rqvc"
+        },
+        {
+          "url": "https://github.com/rustls/rustls/security/advisories/GHSA-2mjx-qc3c-rqvc"
+        },
+        {
+          "url": "https://osv.dev/vulnerability/GHSA-2mjx-qc3c-rqvc"
+        },
+        {
+          "url": "https://rustsec.org/advisories/",
+          "prefix": true
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://github.com/advisories/GHSA-2mjx-qc3c-rqvc",
+          "quote": "This issue affects rustls versions 0.23.13 through 0.23.44 inclusive."
+        }
+      ],
+      "negative_conditions": "Overstating impact as handshake tampering would be wrong.",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "r-got16-cross-origin-credentials",
+      "product": "revera",
+      "category": "upstream-breaking-behavior",
+      "trap": false,
+      "difficulty": "hard",
+      "question": "A service using got 16 has a beforeRequest hook that rewrites requests to a different origin (a regional mirror) and relies on the Authorization header set in the original options. What does got 16 do to credentials in this case?",
+      "query": "got 16 beforeRequest hook different origin authorization header",
+      "gold_facts": [
+        {
+          "id": "strip",
+          "text": "When a beforeRequest hook, afterResponse retry or pagination moves the request to a different origin, got 16 strips credentials (authorization, cookie, etc.) and drops the body; set them explicitly inside the hook.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "different origin",
+              "(strip|remov)"
+            ],
+            [
+              "cross.origin",
+              "(authorization|credentials)",
+              "(strip|remov|drop)"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://github.com/sindresorhus/got/releases/tag/v16.0.0"
+        },
+        {
+          "url": "https://github.com/sindresorhus/got/pull/2465"
+        },
+        {
+          "url": "https://github.com/sindresorhus/got/blob/main/documentation/9-hooks.md"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://github.com/sindresorhus/got/releases/tag/v16.0.0",
+          "quote": "A beforeRequest hook, an afterResponse retry, or a pagination step that moves the request to a different origin now strips credentials and drops the body"
+        }
+      ],
+      "negative_conditions": "",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "r-python-utcnow-deprecated",
+      "product": "revera",
+      "category": "library-default-semantics",
+      "trap": false,
+      "difficulty": "easy",
+      "question": "A PR for a Python 3.12 service adds `datetime.datetime.utcnow()` timestamps and compares them with timezone-aware datetimes. What does utcnow() return, and what is its status in 3.12?",
+      "query": "Python datetime.utcnow naive deprecated 3.12",
+      "gold_facts": [
+        {
+          "id": "naive-deprecated",
+          "text": "utcnow() returns a naive datetime (tzinfo None) and is deprecated since Python 3.12; use datetime.now(timezone.utc).",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "deprecated since version 3\\.12"
+            ],
+            [
+              "utcnow",
+              "deprecated",
+              "3\\.12"
+            ]
+          ]
+        },
+        {
+          "id": "naive",
+          "text": "It returns a naive datetime with tzinfo None.",
+          "load_bearing": false,
+          "patterns": [
+            [
+              "naive"
+            ],
+            [
+              "tzinfo (is )?None"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://docs.python.org/3/library/datetime.html"
+        },
+        {
+          "url": "https://docs.python.org/3.12/library/datetime.html"
+        },
+        {
+          "url": "https://docs.python.org/3.13/library/datetime.html"
+        },
+        {
+          "url": "https://docs.python.org/3.14/library/datetime.html"
+        },
+        {
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://docs.python.org/3/library/datetime.html",
+          "quote": "Deprecated since version 3.12: Use datetime.now() with UTC instead."
+        }
+      ],
+      "negative_conditions": "",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "o-next16-proxy-runtime",
+      "product": "opencode",
+      "category": "migration",
+      "trap": true,
+      "difficulty": "medium",
+      "question": "When migrating a Next.js 15 middleware.ts that sets `export const config = { runtime: 'edge' }` to Next.js 16, what is the file renamed to and can it keep running on the edge runtime?",
+      "query": "Next.js 16 upgrade middleware renamed proxy runtime edge",
+      "gold_facts": [
+        {
+          "id": "proxy",
+          "text": "middleware is renamed to proxy (proxy.ts).",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "middleware",
+              "proxy",
+              "(renam|deprecat)"
+            ]
+          ]
+        },
+        {
+          "id": "nodejs-only",
+          "text": "The edge runtime is NOT supported in proxy; its runtime is nodejs and cannot be configured.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "edge runtime is not supported"
+            ],
+            [
+              "proxy runtime is nodejs"
+            ],
+            [
+              "(runtime|it) cannot be configured"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://nextjs.org/docs/app/guides/upgrading/version-16"
+        },
+        {
+          "url": "https://nextjs.org/docs/app/api-reference/file-conventions/proxy"
+        },
+        {
+          "url": "https://nextjs.org/blog/next-16"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://nextjs.org/docs/app/guides/upgrading/version-16",
+          "quote": "The edge runtime is NOT supported in proxy . The proxy runtime is nodejs , and it cannot be configured."
+        }
+      ],
+      "negative_conditions": "Older blog posts describe middleware as edge-first; applying that to proxy.ts is wrong.",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "o-pg18-uuidv7",
+      "product": "opencode",
+      "category": "current-recommended-api",
+      "trap": false,
+      "difficulty": "easy",
+      "question": "On PostgreSQL 18, how can a table default generate time-ordered UUIDs natively without an extension, and does the function take any arguments?",
+      "query": "PostgreSQL 18 generate UUID version 7 function",
+      "gold_facts": [
+        {
+          "id": "uuidv7",
+          "text": "PostgreSQL 18 provides uuidv7([shift interval]) returning a version 7 time-ordered UUID.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "uuidv7"
+            ]
+          ]
+        },
+        {
+          "id": "shift",
+          "text": "Optional shift interval parameter.",
+          "load_bearing": false,
+          "patterns": [
+            [
+              "shift"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://www.postgresql.org/docs/18/functions-uuid.html"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/current/functions-uuid.html"
+        },
+        {
+          "url": "https://www.postgresql.org/docs/18/release-18.html"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://www.postgresql.org/docs/18/functions-uuid.html",
+          "quote": "uuidv7 ( [ shift interval ] ) → uuid Generates a version 7 (time-ordered) UUID."
+        }
+      ],
+      "negative_conditions": "",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "o-rust2024-set-var-unsafe",
+      "product": "opencode",
+      "category": "migration",
+      "trap": false,
+      "difficulty": "easy",
+      "question": "After switching a crate to Rust edition 2024, calls to std::env::set_var fail to compile. Why, and which other functions are affected the same way?",
+      "query": "Rust 2024 edition std::env::set_var unsafe",
+      "gold_facts": [
+        {
+          "id": "unsafe",
+          "text": "In edition 2024 std::env::set_var and remove_var (and CommandExt::before_exec) are marked unsafe and need an unsafe block.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "set_var",
+              "unsafe"
+            ]
+          ]
+        },
+        {
+          "id": "others",
+          "text": "remove_var and before_exec are also unsafe.",
+          "load_bearing": false,
+          "patterns": [
+            [
+              "remove_var"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://doc.rust-lang.org/edition-guide/rust-2024/newly-unsafe-functions.html"
+        },
+        {
+          "url": "https://doc.rust-lang.org/std/env/fn.set_var.html"
+        },
+        {
+          "url": "https://doc.rust-lang.org/stable/std/env/fn.set_var.html"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://doc.rust-lang.org/edition-guide/rust-2024/newly-unsafe-functions.html",
+          "quote": "The following functions are now marked unsafe : std::env::set_var std::env::remove_var std::os::unix::process::CommandExt::before_exec"
+        }
+      ],
+      "negative_conditions": "",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "o-python315-tomllib-version",
+      "product": "opencode",
+      "category": "version-specific-docs",
+      "trap": false,
+      "difficulty": "hard",
+      "question": "A config file uses TOML 1.1 syntax. Which TOML specification version does Python 3.15's built-in tomllib parse, and can tomllib write TOML?",
+      "query": "Python 3.15 tomllib TOML 1.1 support",
+      "gold_facts": [
+        {
+          "id": "toml-1.1",
+          "text": "Python 3.15 added TOML 1.1.0 support to tomllib (3.11 shipped TOML 1.0.0).",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "3\\.15",
+              "TOML 1\\.1"
+            ],
+            [
+              "TOML 1\\.1\\.0"
+            ]
+          ]
+        },
+        {
+          "id": "no-write",
+          "text": "tomllib does not support writing TOML.",
+          "load_bearing": false,
+          "patterns": [
+            [
+              "does not support writing"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://docs.python.org/3/library/tomllib.html"
+        },
+        {
+          "url": "https://docs.python.org/3.15/library/tomllib.html"
+        },
+        {
+          "url": "https://docs.python.org/3.15/whatsnew/3.15.html"
+        },
+        {
+          "url": "https://docs.python.org/3/whatsnew/3.15.html"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://docs.python.org/3/library/tomllib.html",
+          "quote": "Changed in version 3.15: Added TOML 1.1.0 support."
+        }
+      ],
+      "negative_conditions": "Older docs (3.11-3.14) say TOML 1.0.0; record if docs change.",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "o-eslint10-eslintrc",
+      "product": "opencode",
+      "category": "migration",
+      "trap": false,
+      "difficulty": "medium",
+      "question": "A project with a .eslintrc.json and ESLINT_USE_FLAT_CONFIG=false in CI upgrades to ESLint 10. Will the legacy config keep working?",
+      "query": "ESLint 10 eslintrc support ESLINT_USE_FLAT_CONFIG",
+      "gold_facts": [
+        {
+          "id": "removed",
+          "text": "ESLint 10 removes eslintrc support entirely; a flat config (eslint.config.*) is required.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "remov[a-z]* (the )?eslintrc"
+            ],
+            [
+              "eslintrc[^.]{0,60}(removed|no longer supported)"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://github.com/eslint/eslint/releases/tag/v10.0.0"
+        },
+        {
+          "url": "https://eslint.org/docs/latest/use/migrate-to-10.0.0"
+        },
+        {
+          "url": "https://eslint.org/blog/2026/02/eslint-v10.0.0-released/"
+        },
+        {
+          "url": "https://eslint.org/blog/",
+          "prefix": true
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://github.com/eslint/eslint/releases/tag/v10.0.0",
+          "quote": "feat!: remove eslintrc support"
+        }
+      ],
+      "negative_conditions": "",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "o-vitest5-sequential-removed",
+      "product": "opencode",
+      "category": "migration",
+      "trap": false,
+      "difficulty": "hard",
+      "question": "After upgrading to Vitest 5, `describe.sequential(...)` in a suite that runs concurrently by default is no longer available. What should replace it?",
+      "query": "Vitest 5 describe.sequential removed replacement",
+      "gold_facts": [
+        {
+          "id": "concurrent-false",
+          "text": "Vitest 5 removed test.sequential, describe.sequential and the sequential option; use concurrent: false.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "concurrent: ?false"
+            ],
+            [
+              "sequential[^.]{0,80}in favor of concurrent"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://vitest.dev/guide/migration"
+        },
+        {
+          "url": "https://github.com/vitest-dev/vitest/releases/tag/v5.0.0"
+        },
+        {
+          "url": "https://github.com/vitest-dev/vitest/pull/10198"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://vitest.dev/guide/migration",
+          "quote": "Vitest 5.0 removes the deprecated test.sequential , describe.sequential , and sequential test options. Use concurrent: false"
+        }
+      ],
+      "negative_conditions": "",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "o-commander15-node-version",
+      "product": "opencode",
+      "category": "exact-fact",
+      "trap": false,
+      "difficulty": "medium",
+      "question": "A CommonJS CLI wants to upgrade to Commander 15. What minimum Node.js version does Commander 15 require, and why?",
+      "query": "Commander.js 15 minimum Node.js version ESM",
+      "gold_facts": [
+        {
+          "id": "node-22.12",
+          "text": "Commander 15 requires Node.js v22.12.0 or higher, for require(esm), because it is ESM-only.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "22\\.12"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://github.com/tj/commander.js/releases/tag/v15.0.0"
+        },
+        {
+          "url": "https://github.com/tj/commander.js/blob/master/CHANGELOG.md"
+        },
+        {
+          "url": "https://github.com/tj/commander.js/blob/main/CHANGELOG.md"
+        },
+        {
+          "url": "https://www.npmjs.com/package/commander"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://github.com/tj/commander.js/releases/tag/v15.0.0",
+          "quote": "Breaking: Commander 15 requires Node.js v22.12.0 or higher (for require(esm) )."
+        }
+      ],
+      "negative_conditions": "",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "o-tailwind4-theme-colors",
+      "product": "opencode",
+      "category": "official-vs-old-snippets",
+      "trap": false,
+      "difficulty": "easy",
+      "question": "In a Tailwind CSS v4 project with no tailwind.config.js, how do you add a custom color like mint-500 so utilities such as bg-mint-500 exist?",
+      "query": "Tailwind CSS v4 add custom color theme variable",
+      "gold_facts": [
+        {
+          "id": "theme-directive",
+          "text": "Define a theme variable in CSS with the @theme directive, e.g. @theme { --color-mint-500: ...; }.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "@theme",
+              "--color-"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://tailwindcss.com/docs/theme"
+        },
+        {
+          "url": "https://tailwindcss.com/docs/colors"
+        },
+        {
+          "url": "https://tailwindcss.com/docs/customizing-colors"
+        },
+        {
+          "url": "https://tailwindcss.com/docs/upgrade-guide"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://tailwindcss.com/docs/theme",
+          "quote": "you can add a new color to your project by defining a theme variable like --color-mint-500"
+        }
+      ],
+      "negative_conditions": "theme.extend.colors in tailwind.config.js is the v3 approach.",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "o-node-require-async-module",
+      "product": "opencode",
+      "category": "error-troubleshooting",
+      "trap": false,
+      "difficulty": "hard",
+      "question": "Node.js throws ERR_REQUIRE_ASYNC_MODULE when our CommonJS code calls require() on an ES module dependency. What causes this error, and which Node flag prints where the problem is in the module graph?",
+      "query": "Node.js ERR_REQUIRE_ASYNC_MODULE cause flag",
+      "gold_facts": [
+        {
+          "id": "tla",
+          "text": "The required ES module (or its graph) contains top-level await, i.e. it is asynchronous.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "top-level await"
+            ]
+          ]
+        },
+        {
+          "id": "flag",
+          "text": "--experimental-print-required-tla prints the locations of the top-level awaits.",
+          "load_bearing": false,
+          "patterns": [
+            [
+              "print-required-tla"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://nodejs.org/api/errors.html"
+        },
+        {
+          "url": "https://nodejs.org/api/modules.html"
+        },
+        {
+          "url": "https://nodejs.org/docs/latest/api/errors.html"
+        },
+        {
+          "url": "https://nodejs.org/docs/latest/api/modules.html"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://nodejs.org/api/errors.html",
+          "quote": "When trying to require() an ES Module , the module turns out to be asynchronous. That is, it contains top-level await."
+        }
+      ],
+      "negative_conditions": "",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "o-compose-watch-sync-restart",
+      "product": "opencode",
+      "category": "config-cli",
+      "trap": false,
+      "difficulty": "medium",
+      "question": "With Docker Compose watch (develop.watch), which action syncs a changed nginx.conf into the running container and restarts the service without rebuilding the image?",
+      "query": "Docker Compose watch action sync and restart without rebuild",
+      "gold_facts": [
+        {
+          "id": "sync-restart",
+          "text": "Use action: sync+restart.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "sync\\+restart"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://docs.docker.com/compose/how-tos/file-watch/"
+        },
+        {
+          "url": "https://docs.docker.com/reference/compose-file/develop/"
+        },
+        {
+          "url": "https://docs.docker.com/compose/file-watch/"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://docs.docker.com/compose/how-tos/file-watch/",
+          "quote": "If action is set to sync+restart , Compose synchronizes your changes with the service containers and restarts them."
+        }
+      ],
+      "negative_conditions": "",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "o-github-api-version-default",
+      "product": "opencode",
+      "category": "multi-source-ambiguous",
+      "trap": false,
+      "difficulty": "medium",
+      "question": "Our GitHub REST API client sends no X-GitHub-Api-Version header. Which API version do those requests use, what is the newest version we could pin, and what happens if we pin a version that is no longer supported?",
+      "query": "GitHub REST API versions X-GitHub-Api-Version default latest",
+      "gold_facts": [
+        {
+          "id": "default",
+          "text": "Requests without the header default to 2022-11-28.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "without the x-github-api-version header[^.]{0,40}2022-11-28"
+            ],
+            [
+              "default[^.]{0,40}2022-11-28"
+            ]
+          ]
+        },
+        {
+          "id": "latest",
+          "text": "The newest version is 2026-03-10.",
+          "load_bearing": false,
+          "patterns": [
+            [
+              "2026-03-10"
+            ]
+          ]
+        },
+        {
+          "id": "gone",
+          "text": "Unsupported versions get 410 Gone.",
+          "load_bearing": false,
+          "patterns": [
+            [
+              "410"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://docs.github.com/en/rest/about-the-rest-api/api-versions"
+        },
+        {
+          "url": "https://docs.github.com/rest/about-the-rest-api/api-versions"
+        },
+        {
+          "url": "https://github.blog/changelog/",
+          "prefix": true
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://docs.github.com/en/rest/about-the-rest-api/api-versions",
+          "quote": "Requests without the X-GitHub-Api-Version header will default to use the 2022-11-28 version."
+        }
+      ],
+      "negative_conditions": "",
+      "checked_at": "2026-10-19"
+    },
+    {
+      "id": "o-go124-tool-directive",
+      "product": "opencode",
+      "category": "config-cli",
+      "trap": false,
+      "difficulty": "medium",
+      "question": "A Go 1.24+ repo still uses a tools.go file with blank imports to pin golangci-lint. What is the current recommended way to track and run tool dependencies, and which go get flag adds one?",
+      "query": "Go 1.24 track tool dependencies go.mod go get flag",
+      "gold_facts": [
+        {
+          "id": "tool-directive",
+          "text": "Go modules track executable dependencies with tool directives in go.mod, run via `go tool`; `go get -tool` adds one.",
+          "load_bearing": true,
+          "patterns": [
+            [
+              "go get -tool"
+            ],
+            [
+              "-tool flag"
+            ],
+            [
+              "tool directives?",
+              "go\\.mod"
+            ]
+          ]
+        }
+      ],
+      "acceptable_sources": [
+        {
+          "url": "https://go.dev/doc/go1.24"
+        },
+        {
+          "url": "https://go.dev/doc/modules/managing-dependencies"
+        },
+        {
+          "url": "https://go.dev/ref/mod"
+        },
+        {
+          "url": "https://pkg.go.dev/cmd/go"
+        }
+      ],
+      "excerpts": [
+        {
+          "url": "https://go.dev/doc/go1.24",
+          "quote": "The new -tool flag for go get causes a tool directive to be added to the current module for named packages in addition to adding require directives."
+        }
+      ],
+      "negative_conditions": "",
+      "checked_at": "2026-10-19"
+    }
+  ]
+}

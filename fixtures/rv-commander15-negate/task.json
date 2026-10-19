@@ -1,0 +1,29 @@
+{
+  "id": "rv-commander15-negate",
+  "product": "revera",
+  "title": "Update deployment CLI dependencies and add tags",
+  "prompt": "Review this PR for actionable defects. The PR refreshes the CLI's dependencies and adds an optional --tag flag to the displayed deployment status. The repository is the post-PR state; pr.diff contains the changes.",
+  "package_versions": {
+    "commander": "15.0.0"
+  },
+  "diff_file": "pr.diff",
+  "clean": false,
+  "known_bugs": [
+    {
+      "id": "missing-color-default",
+      "file": "src/cli.ts",
+      "description": "Commander 15 no longer implicitly defaults color to true when both --no-color and --color exist. With no flags options.color is undefined, so renderStatus disables the documented default colors.",
+      "patterns": [
+        [
+          "colou?r",
+          "default|without.*flag|no.*flag",
+          "undefined|false|falsy|off|disabl|plain|monochrome|unset|absent|missing|lost|remov|not.*(?:true|set)|no longer"
+        ]
+      ]
+    }
+  ],
+  "sources": [
+    "https://github.com/tj/commander.js/releases/tag/v15.0.0"
+  ],
+  "notes_private": "Confirmed Commander 14.0.3 produces {color:true}, while 15.0.0 produces {} with the exact option order and no arguments. Both explicit flags still work. bun.lock is a reproducibility artifact outside the review diff."
+}

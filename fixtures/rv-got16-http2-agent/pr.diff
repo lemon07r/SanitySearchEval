@@ -1,0 +1,27 @@
+diff --git a/package.json b/package.json
+--- a/package.json
++++ b/package.json
+@@ -4,7 +4,7 @@
+   "type": "module",
+   "engines": {"node": ">=22.12.0"},
+   "dependencies": {
+-    "got": "^15.1.0",
++    "got": "^16.1.0",
+     "http2-wrapper": "2.2.1"
+   }
+ }
+diff --git a/src/client.ts b/src/client.ts
+--- a/src/client.ts
++++ b/src/client.ts
+@@ -7,10 +7,10 @@
+ export async function readStatus(url: string): Promise<RelayStatus> {
+   return got(url, {
+     http2: true,
+     request: http2wrapper.auto,
+     agent: {http2: relayAgent},
+     retry: {limit: 1},
+-    timeout: {request: 2500},
++    timeout: {request: 3500},
+   }).json<RelayStatus>();
+ }
+ 

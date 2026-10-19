@@ -1,0 +1,16 @@
+{
+  "id": "rv-ky2-migrate",
+  "product": "revera",
+  "title": "Update queue-control HTTP client",
+  "prompt": "Review this PR for actionable defects. The PR updates the queue-control client's HTTP dependency and adjusts the client implementation accordingly. The repository is the post-PR state; pr.diff contains the changes.",
+  "package_versions": {
+    "ky": "2.2.0"
+  },
+  "diff_file": "pr.diff",
+  "clean": true,
+  "known_bugs": [],
+  "sources": [
+    "https://github.com/sindresorhus/ky/releases/tag/v2.0.0"
+  ],
+  "notes_private": "Clean control. Uses prefix joining, state-object hooks, and awaits DELETE without JSON parsing. Verified path encoding, auth, status callbacks, JSON GET and empty 204 DELETE using injected fetch. bun.lock is a post-PR reproducibility artifact omitted from pr.diff."
+}

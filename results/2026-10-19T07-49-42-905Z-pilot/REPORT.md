@@ -1,0 +1,81 @@
+# Search API evaluation
+
+Directional small-sample results; no blended score or claim of statistical superiority. Failures remain in every denominator. Costs distinguish estimates from returned dollars; unknown is not zero. Latencies include retries. No recommendation is inferred without completed evaluations.
+
+## BLOCKED profiles (not evaluated)
+
+These arms were not called and are excluded from outcome denominators, not scored as failures or losers.
+
+| Profile | Status | Reason | Skipped units |
+| --- | --- | --- | --- |
+| brave:llm-context | BLOCKED | OPTION_NOT_IN_PLAN: the key's Brave plan ('Free AI') does not include LLM Context (checked 2026-10-19) | 6 |
+
+## Retrieval
+
+| Profile | url@1 / @3 / @5 | evidence@1 / @3 / @5 | evidence@5 Wilson 95% | read_ok | evidence_in_read | search p50/p90 ms | search+read p50/p90 ms | median visible tokens | USD/query est / metered | USD/evidenced query est / metered | Errors |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| brave:web | 3/6 (50.0%) / 4/6 (66.7%) / 5/6 (83.3%) | 5/6 (83.3%) / 6/6 (100.0%) / 6/6 (100.0%) | 61.0%–100.0% | 6/6 (100.0%) | 6/6 (100.0%) | 496.5 / 680.1 | 833.4 / 1215.0 | 3814 | $0.00500 / unknown | $0.00500 / unknown | none |
+| exa:auto | 4/6 (66.7%) / 5/6 (83.3%) / 5/6 (83.3%) | 6/6 (100.0%) / 6/6 (100.0%) / 6/6 (100.0%) | 61.0%–100.0% | 6/6 (100.0%) | 6/6 (100.0%) | 6174.1 / 6226.7 | 6278.5 / 6336.9 | 8429 | $0.00800 / $0.00800 | $0.00800 / $0.00800 | none |
+| exa:deep-lite | 4/6 (66.7%) / 5/6 (83.3%) / 5/6 (83.3%) | 6/6 (100.0%) / 6/6 (100.0%) / 6/6 (100.0%) | 61.0%–100.0% | 6/6 (100.0%) | 6/6 (100.0%) | 4954.8 / 5474.2 | 5057.7 / 5583.2 | 8429 | $0.01300 / $0.01300 | $0.01300 / $0.01300 | none |
+| firecrawl:search | 2/6 (33.3%) / 2/6 (33.3%) / 2/6 (33.3%) | 3/6 (50.0%) / 5/6 (83.3%) / 5/6 (83.3%) | 43.6%–97.0% | 6/6 (100.0%) | 4/6 (66.7%) | 272.4 / 357.1 | 502.1 / 666.5 | 4386 | $0.00297 / unknown | $0.00356 / unknown | none |
+| firecrawl:search-md | 2/6 (33.3%) / 2/6 (33.3%) / 2/6 (33.3%) | 3/6 (50.0%) / 4/6 (66.7%) / 5/6 (83.3%) | 43.6%–97.0% | 6/6 (100.0%) | 4/6 (66.7%) | 601.3 / 1029.2 | 601.3 / 1029.2 | 6793 | $0.00644 / unknown | $0.00772 / unknown | none |
+| parallel:advanced | 3/6 (50.0%) / 5/6 (83.3%) / 5/6 (83.3%) | 5/6 (83.3%) / 5/6 (83.3%) / 6/6 (100.0%) | 61.0%–100.0% | 6/6 (100.0%) | 5/6 (83.3%) | 877.5 / 1121.9 | 1324.6 / 1583.7 | 5047 | $0.00600 / unknown | $0.00600 / unknown | none |
+| parallel:fast | 2/6 (33.3%) / 4/6 (66.7%) / 4/6 (66.7%) | 6/6 (100.0%) / 6/6 (100.0%) / 6/6 (100.0%) | 61.0%–100.0% | 6/6 (100.0%) | 6/6 (100.0%) | 492.3 / 904.4 | 955.8 / 1237.4 | 6952 | $0.00200 / unknown | $0.00200 / unknown | none |
+| tavily:advanced | 0/6 (0.0%) / 3/6 (50.0%) / 3/6 (50.0%) | 6/6 (100.0%) / 6/6 (100.0%) / 6/6 (100.0%) | 61.0%–100.0% | 6/6 (100.0%) | 6/6 (100.0%) | 47.4 / 116.1 | 115.0 / 265.2 | 4777 | $0.01733 / unknown | $0.01733 / unknown | none |
+| tavily:basic | 0/6 (0.0%) / 2/6 (33.3%) / 2/6 (33.3%) | 6/6 (100.0%) / 6/6 (100.0%) / 6/6 (100.0%) | 61.0%–100.0% | 6/6 (100.0%) | 6/6 (100.0%) | 51.2 / 55.4 | 120.4 / 159.3 | 4417 | $0.00933 / unknown | $0.00933 / unknown | none |
+
+### Per-case paired evidence matrix
+
+| Case | brave:web | exa:auto | exa:deep-lite | firecrawl:search | firecrawl:search-md | parallel:advanced | parallel:fast | tavily:advanced | tavily:basic |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| p-express5-wildcard | 1 | 1 | 1 | 1 | 2 | 4 | 1 | 1 | 1 |
+| p-pg18-data-checksums | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| p-rust-cve-2024-24576-linux | 1 | 1 | 1 | 2 | 1 | 1 | 1 | 1 | 1 |
+| p-rust-lazylock-version | 2 | 1 | 1 | 3 | 4 | 1 | 1 | 1 | 1 |
+| p-vitest5-attachments-dir | 1 | 1 | 1 | ✗ | ✗ | 1 | 1 | 1 | 1 |
+| p-zod4-error-format | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+
+## Revera
+
+| Arm | Bugs found / available | Reported FPs / clean PRs | Uncertain | Completion | Model calls | Tokens input/output/cache-read/cache-write | Model USD est | Search+read USD est / metered | Wall ms |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+
+### Revera task outcomes
+
+| Task | Arm / rep | Bugs | FPs | Uncertain | Completion |
+| --- | --- | --- | --- | --- | --- |
+
+### Reported clean-task and unmatched bug-task findings
+
+| Task | Arm | Kind | File:line | Title | Explanation | Confidence | Citations |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+
+## OpenCode
+
+| Arm | All-pass tasks | Violations | Timeouts | Tool calls | Model USD est | Search+read USD est / metered | Wall ms |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+
+### OpenCode task outcomes
+
+| Task | Arm / rep | Hidden tests pass/total | All pass | Violations | Completion | Model calls | Tokens input/output/cache-read/cache-write | Wall ms |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+
+## Optional blinded judge (does not override scores)
+
+| Profile | Judgments | Supported | Contradicted | Insufficient | Errors |
+| --- | --- | --- | --- | --- | --- |
+| brave:web | 6 | 6 | 0 | 0 | 0 |
+| exa:auto | 6 | 6 | 0 | 0 | 0 |
+| exa:deep-lite | 6 | 6 | 0 | 0 | 0 |
+| firecrawl:search | 6 | 5 | 0 | 1 | 0 |
+| firecrawl:search-md | 6 | 5 | 0 | 1 | 0 |
+| parallel:advanced | 6 | 6 | 0 | 0 | 0 |
+| parallel:fast | 6 | 6 | 0 | 0 | 0 |
+| tavily:advanced | 6 | 6 | 0 | 0 | 0 |
+| tavily:basic | 6 | 6 | 0 | 0 | 0 |
+
+Judgments require manual spot-checking; no independent verifier was run automatically.
+
+## Limitations
+
+Small, directional samples. Provider caches and changing documents can affect results. Model costs are list-price estimates, not proxy invoices. Unknown/failed calls are retained, and missing latencies are represented as zero elapsed only when no call was recorded. Clean-task findings are false positives under the frozen fixture truth; unmatched bug-task findings require manual adjudication. No reranker or embedding ablation is enabled. Absent cells mean not run, never a failure or success.

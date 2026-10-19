@@ -1,0 +1,9 @@
+{
+  "name": "deploy-status-cli",
+  "private": true,
+  "type": "module",
+  "engines": {"node": ">=22.12.0"},
+  "dependencies": {
+    "commander": "^15.0.0"
+  }
+}
