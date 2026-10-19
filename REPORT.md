@@ -90,7 +90,8 @@ Observations:
   and an HTTPS→HTTP redirect refused by policy). No search call failed for any
   provider.
 - **Blinded judge** (same model, does not override scores): it agreed with the
-  deterministic metric on all 120 units. "Insufficient" was given for 3 Firecrawl
+  deterministic match on all 120 units ("supported" exactly when the gold fact was
+  found in the search results or the read page; this is not evidence@5 alone). "Insufficient" was given for 3 Firecrawl
   and 2 Tavily units, and "contradicted" never. I spot-checked six judgments by hand
   against the stored source text. All six verdicts were right, though one reason
   invented a small detail.
@@ -154,8 +155,9 @@ What happened:
   error. Web arms copied a non-generic `ToolExecutionOptions` from docs, but it is
   generic in the installed `ai@7.0.143`. The harness hides `node_modules` and
   cannot run `tsc`, so the agents could not catch it. In confirmation reps `oc-ai7`
-  was noisy for every arm (Exa 2/3, Firecrawl 1/3, none 2/3).
-- **Conclusion:** on these tasks search added cost (about 1.8x model spend) without
+  was noisy for every arm (Exa 2/3, Firecrawl 1/3, none 2/3), and every
+  repeat failure, including the no-search one, was the same `tsc` error.
+- **Conclusion:** on these tasks the search arms used about 1.8x the model spend of no search, without
   adding passes. One hypothesis is that the model already knows these releases; if
   so, search should matter more for releases newer than its training data or for
   obscure APIs. Testing that needs tasks built on such releases. This track cannot

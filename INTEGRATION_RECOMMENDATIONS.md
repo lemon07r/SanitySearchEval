@@ -146,7 +146,7 @@ timeout. It has **no private-address (SSRF) guard**
      interactive use, consider swapping the order.
 3. **Budgets:** 2 searches and 2 reads per task were enough in every coding run. A
    per-session cap avoids runaway cost. At these prices, cost is negligible next to
-   model tokens: search added about 1.8x model spend through extra context, while
+   model tokens: search arms used about 1.8x the model spend of no search through extra context, while
    provider fees were $0.001–0.016 per task.
 
 Things not tested that a plugin could enable: domain targeting (for example
