@@ -103,6 +103,14 @@ That was the only source of strict clean-control flags.
 - **Provider:** Parallel `fast` for interactive coding: 24/24 evidence@5,
   12/12 at rank 1 on coding-style lookups, 0.53 s p50, the lowest cost. Exa `auto`
   is equally accurate but about 8x slower per search (4.5 s p50).
+- **Update 2026-10-24 (post-hoc, [REPORT.md](REPORT.md#post-hoc-additions-2026-10-24)):**
+  cache-free Exa `auto` searches now take 0.47 s p50, vs 0.55 s for Parallel `fast`
+  on the same day, so latency no longer separates them. Exa had more evidence at
+  rank 1 (23 vs 21 of 24) and Parallel costs about 4x less. Either is a sound
+  choice. Exa `lite` (same evidence, $0.004 per search) sits between them. If Exa is
+  used, pass the agent's purpose as `objective`: Exa recommends it, and it was
+  neutral here. If Firecrawl is used, prefer `/v2/search/developer` for code
+  questions (19/24 vs 16/24 evidence@5) and general search for advisories.
 - **Expected benefit is small for well-known libraries.** No-search passed 4/4
   coding tasks, the same as the best search arm. A likely but untested explanation
   is that the model already knew these upgrades. Search should be a tool the model chooses to call, not something

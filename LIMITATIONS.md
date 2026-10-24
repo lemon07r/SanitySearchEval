@@ -101,3 +101,16 @@ evaluation does not show and what could have biased it.
   normalized tools, so native OpenCode defaults (for example its result count or
   search depth) were not measured.
 - Revera itself. No Revera or OpenCode code was changed or run.
+## Post-hoc additions (2026-10-24)
+
+- The new profiles were chosen after the 2026-10-19 results were known, and run once
+  without a pilot. Treat them as exploratory, not as a frozen held-out test.
+- The same 24 holdout cases were reused, so they are no longer unseen by the person
+  choosing configurations. Ground truth was not changed.
+- No LLM judge was run on the post-hoc retrieval units.
+- Exa caches results with a key that ignores `objective`. One comparison was voided
+  and rerun with cache-busting `maxCharacters` values. Other providers may cache
+  repeated queries too: latency for queries also sent on 2026-10-19 may be flattered,
+  and this is not controlled.
+- Agent runs are one rep per arm on 8 tasks. `oc-ai7` was noisy before; its one
+  post-hoc failure was not diagnosed because hidden-test output is not kept.

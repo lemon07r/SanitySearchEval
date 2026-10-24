@@ -195,3 +195,110 @@ Details, schemas and file-level changes: [INTEGRATION_RECOMMENDATIONS.md](INTEGR
   3 cases at rank 1.
 
 Full limitations: [LIMITATIONS.md](LIMITATIONS.md).
+## Post-hoc additions (2026-10-24)
+
+Added after the frozen evaluation and reported separately. Nothing above was
+rewritten. Why these were added, what was changed, and the two problems found
+during the reruns are recorded in the [PROTOCOL.md](PROTOCOL.md) amendments dated
+2026-10-24. Short version: the frozen protocol tested one baseline plus at most one
+alternative per provider and never surveyed each provider's full API. That missed
+Firecrawl's Developer Index (`/v2/search/developer`, launched 2026-08-20) and Exa's
+`objective` field. A doc audit of all five providers found no request bugs in the
+frozen profiles. Brave LLM Context is still `OPTION_NOT_IN_PLAN` on this key.
+
+Runs (one rep each, no LLM judge):
+
+- Retrieval, same-day: [results/2026-10-24T10-41-00-663Z-eval](results/2026-10-24T10-41-00-663Z-eval/REPORT.md)
+- Retrieval, Exa cache-controlled pair: [results/2026-10-24T10-53-26-808Z-eval](results/2026-10-24T10-53-26-808Z-eval/REPORT.md)
+- Agents, Revera tasks: [results/2026-10-24T10-51-54-910Z-eval](results/2026-10-24T10-51-54-910Z-eval/REPORT.md) (its OpenCode rows are void, see below)
+- Agents, OpenCode rerun: [results/2026-10-24T10-57-52-872Z-eval](results/2026-10-24T10-57-52-872Z-eval/REPORT.md)
+
+### Retrieval (same 24 holdout cases, same-day controls)
+
+Provider indexes change over time, so the five frozen profiles were rerun on the
+same day as controls. Compare new arms with these rows, not with the 2026-10-19 table.
+
+| Profile | Kind | evidence@1 | evidence@5 | url@5 | evidence in read page | search p50 / p90 ms | median visible tokens | USD per query |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| exa:auto-uncached | control (cache-free) | 23/24 | 24/24 | 24 | 24/24 | 468 / 510 | 5693 | $0.0080 metered |
+| exa:auto-objective-uncached | new | 23/24 | 24/24 | 24 | 24/24 | 462 / 509 | 5682 | $0.0080 metered |
+| exa:auto-dynamic | new | **24/24** | 24/24 | 24 | 24/24 | 654 / 1429 | 5160 | $0.0080 metered |
+| exa:lite | new | 23/24 | 24/24 | 24 | 24/24 | 439 / 486 | 5891 | $0.0050 metered |
+| parallel:fast | control | 21/24 | 24/24 | 21 | 21/24 | 546 / 673 | 6538 | $0.0020 est |
+| tavily:advanced | control | 20/24 | 20/24 | 18 | 21/24 | 2674 / 4363 | 5371 | $0.0177 est |
+| brave:web | control | 14/24 | 21/24 | 15 | 20/24 | 494 / 571 | 4885 | $0.0050 est |
+| brave:web-nospell | new | 14/24 | 21/24 | 15 | 20/24 | 466 / 524 | 4885 | $0.0050 est |
+| firecrawl:developer | new | 10/24 | **19/24** | 5 | 16/24 | 1086 / 1967 | 6820 | $0.0030 est |
+| firecrawl:search | control | 13/24 | 16/24 | 20 | 18/24 | 781 / 879 | 3884 | $0.0030 est |
+
+What changed:
+
+- **Firecrawl Developer Index helps, but doesn't catch up.** It found gold
+  evidence on 19/24 cases vs 16/24 for Firecrawl's general search on the same day:
+  it won 4 cases (ESLint 10, Got 15, Got 16, uv) and lost 1 (Strawberry). On the
+  Revera-like slice it found 7/12 vs 5/12. It still trails Exa and Parallel (24/24).
+  Its 4 remaining misses are all security-advisory cases (Quart, mise, PyMongo, Go
+  loopvar). The index covers GitHub issues, PRs, READMEs and curated docs, not
+  advisory databases, so this is a coverage limit rather than a ranking problem.
+  105 of its 120 results were github.com URLs, and it rarely returned the canonical
+  page itself (url@5: 5/24): the evidence usually came from an issue or PR quoting it.
+  Its evidence also sat lower in the list (evidence@1: 10 vs 13).
+- **Exa `objective` made no measurable difference.** With caching controlled, it
+  changed the result list in 5 of 24 cases and the evidence rank in none. Exa
+  was already at the ceiling on this set.
+- **Exa dynamic highlights (beta)** put evidence at rank 1 on all 24 cases (one more
+  than `auto`) with about 9% fewer visible tokens, but about 190 ms slower at p50.
+  That's a one-case difference, within noise.
+- **Exa `lite`** matched `auto` on evidence at 0.44 s p50 with the tightest p90
+  of any arm, and costs about 40% less ($0.005 vs $0.008 per search plus read).
+- **Exa is now as fast as Parallel.** Cache-free `auto` searches had a p50 of 0.47 s
+  (p90 0.51 s), down from 4.5 s on 2026-10-19, vs 0.55 s for Parallel `fast` on the
+  same day. This removes the main reason the OpenCode recommendation preferred
+  Parallel. Parallel is still about 4x cheaper per search plus read.
+- **Brave `spellcheck: false`** returned identical results on all 24 cases; none of
+  these queries were being rewritten.
+- **Drift in the controls:** Tavily dropped from 22 to 20 at evidence@5 (Chalk 6,
+  Quart), Brave swapped one case for another, and Exa, Parallel and Firecrawl were
+  unchanged.
+
+### Agents (Revera 4 tasks, OpenCode 4 tasks; one run per arm)
+
+| Arm | Revera bugs found | Revera clean-control findings / uncertain | OpenCode all-pass | Model USD est per task | Search USD per task |
+| --- | --- | --- | --- | --- | --- |
+| firecrawl:developer | 2/2 | 0 / 1 | 4/4 | $0.11 Revera, $0.10 OpenCode | $0.004 / $0.002 est |
+| exa:auto-objective | 2/2 | 0 / 0 | 3/4 | $0.07 Revera, $0.11 OpenCode | $0.007 / $0.006 metered |
+
+- Both arms found both breaking-change bugs. The one uncertain item from
+  `firecrawl:developer` is the same defensible pooling comment on `rv-got16-migrate`
+  described above, kept out of findings.
+- OpenCode: three tasks passed for both arms. Exa's one miss was `oc-ai7` (3/4
+  hidden tests), the task that failed at random for every arm on 2026-10-19, including no
+  search. The failing test was not captured, so its cause is unchecked. As before,
+  this track cannot rank providers.
+
+### Two problems found during the reruns (both fixed, both recorded in PROTOCOL.md)
+
+- **Exa result cache ignores `objective`.** In the first same-day run, whichever of
+  `exa:auto` / `exa:auto-objective` ran second came back from cache (about 90 ms, identical
+  URLs) in all 24 pairs, so that comparison is void. Its `exa:auto` latency is also
+  cache-flattered. The cache-controlled pair above replaces both. Anyone A/B testing
+  Exa parameters should vary something that is part of the cache key, or expect
+  cached answers.
+- **Missing fixture dependencies.** The fixtures' installed packages had been
+  deleted since 2026-10-19, and the harness silently ran without them, so every
+  OpenCode task in the first post-hoc agent run failed on import. The harness now
+  refuses to run in that state. Reference solutions were checked to pass, and the
+  OpenCode tasks were rerun.
+
+### Bottom line of the additions
+
+- **Revera:** no change. Exa `auto` stays. `objective` is harmless and Exa recommends
+  passing it from agents, but it gained nothing here.
+- **OpenCode:** Exa and Parallel are now about equal on speed. Exa had more evidence
+  at rank 1 (23 vs 21) and Parallel costs less. Exa `lite` is a reasonable middle
+  option. Either is fine. These new data don't settle which is better.
+- **Firecrawl:** if you use Firecrawl, use the Developer Index for code questions
+  (19 vs 16) and general search for advisories. It is still not a match for Exa or
+  Parallel on this set.
+
+Cost of the additions: about $4.80 at list prices (retrieval $1.93, agents $2.87), no judge.

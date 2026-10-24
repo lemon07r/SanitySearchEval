@@ -119,3 +119,49 @@ reports is computed from these; "metered" cost comes from fields the API returne
   → `results[] {index, relevance_score}`, `usage.cost` (credits). Model
   `qwen/qwen3-reranker-8b`; price not published on the model page (reported as unknown
   unless `usage.cost` is returned).
+
+## Post-hoc additions (checked 2026-10-24)
+
+These five non-baseline profiles were added after the frozen evaluation and carry
+`posthoc: true` in run manifests. The original ten profile IDs and parameters,
+frozen profile selection, and historical results are unchanged.
+
+- **Firecrawl developer search** (`firecrawl:developer`):
+  `POST https://api.firecrawl.dev/v2/search/developer`, `Authorization: Bearer`.
+  Body `{query, k, passages, types}`: `k` 1–100 (default 10), `passages` 1–5
+  (default 1), `types` selects `doc`, `issue`, `pull_request`, `readme`.
+  This profile uses `k: 5`, `passages: 5`, and all four types.
+  Response `{success, results:[{id,type?,url,title?,passages:[{text}]}], partial?, coverage?, reranked?}`.
+  The live response on 2026-10-24 omitted result `type` and included a top-level
+  `partial` field. When `type` is absent or null, the kind is derived from the
+  documented ID prefix before `:` (`doc`, `issue`, `pull_request`, `readme`);
+  non-string IDs without a type produce a null kind.
+  Server order is retained; passages are joined with blank lines, missing titles
+  fall back to the URL, and publication dates are left null. `partial`, `coverage`, and
+  `reranked` remain only in the private raw trace, not model-visible results.
+  Search costs 2 credits per started block of 10 results; the response has no
+  `creditsUsed`, so the five-result search is estimated at 2 credits. Reads use
+  the existing `/v2/scrape` request and pricing.
+  Docs: https://docs.firecrawl.dev/api-reference/endpoint/developer-search
+- **Exa objective** (`exa:auto-objective`): adds `objective` (≤4096 characters)
+  to the existing `type: "auto"` search. It receives the agent/case purpose and
+  is omitted entirely if no purpose is supplied; other parameters and `/contents`
+  reads match `exa:auto`. Search is estimated at $7/1k requests.
+  Docs: https://exa.ai/docs/search/best-practices.md#pass-the-objective-from-agents
+- **Exa dynamic highlights** (`exa:auto-dynamic`): objective-enabled auto search
+  with `contents.highlights: {dynamic: true}` and the search-only beta header
+  `Exa-Beta: dynamic-highlights-2026-08-28`. Dynamic highlights are incompatible
+  with `maxCharacters`, so that field is omitted. Reads match `exa:auto`; search
+  is estimated at $7/1k requests. The non-secret beta header is saved in the profile.
+  Docs: https://exa.ai/docs/search/highlights.md#dynamic-highlights
+- **Exa lite** (`exa:lite`): objective-enabled search with `type: "lite"`,
+  otherwise matching `exa:auto-objective`, including `/contents` reads.
+  Price: $4/1k searches; added 2026-10-19 per the Exa changelog.
+  Exa `costDollars.total` handling is unchanged for all three additions.
+  Changelog: https://exa.ai/docs/changelog.md
+- **Brave without spelling correction** (`brave:web-nospell`): matches `brave:web`
+  with `spellcheck: false` and the same common reader and $5/1k search price.
+  `spellcheck` defaults to `true`, which searches the corrected query.
+  Docs: https://api-dashboard.search.brave.com/api-reference/web/search/get
+- **Brave LLM Context re-check**: on 2026-10-24 this key still returns
+  `OPTION_NOT_IN_PLAN`; the original blocked profile remains unchanged.

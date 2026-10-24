@@ -175,3 +175,46 @@ alternatives in, never prove baselines better.
   `rv-commander15-negate`, `rv-got16-http2-agent`, `rv-got16-migrate` (exactly four).
   Run: Exa, Firecrawl and `none` × those 4 tasks × 2 extra reps
   (`cases/agent-confirmation.json`).
+- 2026-10-24, post-hoc additions (declared before any of these runs). The frozen
+  protocol fixed one baseline plus at most one alternative per provider and did not
+  survey each provider's full product range, so two capabilities that fit the
+  `web_search`/`web_read` contract were missed: Firecrawl's Developer Index
+  (`/v2/search/developer`, launched 2026-08-20) and Exa's `objective` field (the
+  agent/case purpose; Parallel already received it). A doc audit of all five
+  providers (checked 2026-10-24) found no request bugs in the frozen profiles.
+  New profiles, all marked `posthoc: true`; the original ten are unchanged:
+  `firecrawl:developer` (k 5, passages 5, all four types; `/v2/scrape` reads as in
+  `firecrawl:search`), `exa:auto-objective`, `exa:auto-dynamic` (objective plus
+  beta dynamic highlights), `exa:lite` (objective, `type: lite`) and
+  `brave:web-nospell` (`spellcheck: false`). Brave LLM Context was re-checked and
+  is still `OPTION_NOT_IN_PLAN` on this key.
+  Runs: (1) retrieval on the same 24 holdout cases for the five new profiles plus
+  the five frozen profiles as same-day controls (provider indexes change over
+  time, so new arms are compared with same-day controls, not the 2026-10-19
+  numbers); no LLM judge (it agreed with the deterministic score on 120/120 units
+  on 2026-10-19). (2) Agent quick pass on all 8 tasks for `firecrawl:developer`
+  and `exa:auto-objective` only, chosen now: the first is the missed capability,
+  the second the change agents can use directly (they often pass `purpose`).
+  Results are reported as separate post-hoc entries; the 2026-10-19 findings are
+  not rewritten, and nothing is re-frozen on the basis of these runs.
+- 2026-10-24, after the post-hoc retrieval run (`results/2026-10-24T10-41-00-663Z-eval`):
+  Exa serves cached results whose cache key includes `type` and highlight settings
+  but not `objective`. In all 24 case pairs, whichever of `exa:auto` /
+  `exa:auto-objective` ran second came back in about 90 ms (Exa `searchTime`
+  about 7 ms) with the identical URL list, so that comparison is void. `exa:auto-dynamic`
+  and `exa:lite` had no cache hits. Verified directly: changing
+  `highlights.maxCharacters` by one character misses the cache, and a repeat hits it.
+  Rerun as a clean pair, `exa:auto-uncached` (maxCharacters 3998) and
+  `exa:auto-objective-uncached` (3999, plus objective), in a separate run. Exa
+  same-day latency is reported from the uncached arms only.
+- 2026-10-24, after the post-hoc agent run (`results/2026-10-24T10-51-54-910Z-eval`):
+  the fixtures' installed dependencies (`fixtures/*/.deps`) had been removed after
+  2026-10-19 and `bun run fixtures:setup` was not rerun, and `prepareWorkspace`
+  silently skipped missing deps. Every OpenCode task in that run therefore failed its
+  hidden tests on import (0/4 for both arms). Its Revera units run no tests and are
+  unaffected. Fix: dependencies reinstalled, and `prepareWorkspace` now refuses to run
+  a fixture that declares dependencies but has no installed `.deps`. Each reference
+  solution was checked to pass its hidden tests and each unmodified repo to fail them.
+  The 4 OpenCode tasks were rerun for both arms in a separate run
+  (`cases/agent-opencode-posthoc.json`). The void OpenCode rows stay in the first run
+  and are excluded from reporting.

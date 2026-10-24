@@ -1,0 +1,22 @@
+[
+  {
+    "id": "oc-execa10",
+    "product": "opencode",
+    "fixture_dir": "fixtures/oc-execa10"
+  },
+  {
+    "id": "oc-ky2",
+    "product": "opencode",
+    "fixture_dir": "fixtures/oc-ky2"
+  },
+  {
+    "id": "oc-ai7",
+    "product": "opencode",
+    "fixture_dir": "fixtures/oc-ai7"
+  },
+  {
+    "id": "oc-ts7-config",
+    "product": "opencode",
+    "fixture_dir": "fixtures/oc-ts7-config"
+  }
+]

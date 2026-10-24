@@ -10,6 +10,13 @@ const RUNS = {
   agents: "results/2026-10-19T08-07-51-071Z-eval",
   confirmation: "results/2026-10-19T08-26-06-898Z-eval",
 };
+const POSTHOC_RUNS = {
+  retrieval_same_day: "results/2026-10-24T10-41-00-663Z-eval",
+  retrieval_exa_uncached: "results/2026-10-24T10-53-26-808Z-eval",
+  revera: "results/2026-10-24T10-51-54-910Z-eval",
+  opencode: "results/2026-10-24T10-57-52-872Z-eval",
+};
+type Arm = {arm: string; provider: string; profile: string};
 const PROVIDERS = [
   {arm: "exa:auto", provider: "Exa", profile: "auto"},
   {arm: "parallel:fast", provider: "Parallel", profile: "fast"},
@@ -31,13 +38,13 @@ const retrievalUnits = await units(RUNS.retrieval);
 const judgments = await readJSONL(`${RUNS.retrieval}/judgments.jsonl`);
 const sliceOf = (id: string) => id.startsWith("r-") ? "revera" : "opencode";
 
-const retrieval = PROVIDERS.filter(p => p.arm !== "none").map(p => {
-  const us = byArm(retrievalUnits, p.arm), n = us.length;
+function retrievalArm(p: Arm, sourceUnits: Unit[], sourceJudgments: any[] | null) {
+  const us = byArm(sourceUnits, p.arm), n = us.length;
   const hit = (key: string, k?: number) => us.filter(u => k ? u.metrics[key]?.[k] : u.metrics[key]).length;
   const e5 = hit("evidence", 5), [lo, hi] = wilson(e5, n);
   const slice = (keep: (u: Unit) => boolean) => { const xs = us.filter(keep); return {n: xs.length, evidence1: xs.filter(u => u.metrics.evidence?.[1]).length, evidence5: xs.filter(u => u.metrics.evidence?.[5]).length, in_read: xs.filter(u => u.metrics.evidence_in_read).length}; };
   const errors: Record<string, number> = {}; for (const u of us) for (const c of u.metrics.error_classes ?? []) errors[c] = (errors[c] ?? 0) + 1;
-  const js = judgments.filter((j: any) => j.arm === p.arm);
+  const js = sourceJudgments?.filter((j: any) => j.arm === p.arm) ?? [];
   const m = metered(us);
   return {
     ...p, n,
@@ -52,9 +59,10 @@ const retrieval = PROVIDERS.filter(p => p.arm !== "none").map(p => {
     usd_basis: m === null ? "estimate" : "metered",
     slices: {revera: slice(u => sliceOf(u.caseId) === "revera"), opencode: slice(u => sliceOf(u.caseId) === "opencode"), traps: slice(u => !!caseInfo.get(u.caseId)?.trap)},
     errors,
-    judge: {n: js.length, supported: js.filter((j: any) => j.judgment?.support === "supported").length, insufficient: js.filter((j: any) => j.judgment?.support === "insufficient").length, contradicted: js.filter((j: any) => j.judgment?.support === "contradicted").length},
+    judge: sourceJudgments === null ? null : {n: js.length, supported: js.filter((j: any) => j.judgment?.support === "supported").length, insufficient: js.filter((j: any) => j.judgment?.support === "insufficient").length, contradicted: js.filter((j: any) => j.judgment?.support === "contradicted").length},
   };
-});
+}
+const retrieval = PROVIDERS.filter(p => p.arm !== "none").map(p => retrievalArm(p, retrievalUnits, judgments));
 
 const retrievalCases = cases.map(c => ({
   id: c.id, slice: sliceOf(c.id), trap: !!c.trap, category: c.category, difficulty: c.difficulty, question: c.question,
@@ -69,12 +77,13 @@ const tasks = await Promise.all(["rv-commander15-negate", "rv-got16-http2-agent"
   const t = JSON.parse(await readFile(`fixtures/${id}/task.json`, "utf8"));
   return {id, product: t.product, title: t.title, clean: !!t.clean};
 }));
-const agentArm = (us: Unit[], product: string) => PROVIDERS.map(p => {
+function aggregateAgentArm(us: Unit[], product: string, p: Arm) {
   const xs = us.filter(u => u.arm === p.arm && u.metrics.product === product), n = xs.length;
   const base = {...p, runs: n, model_usd_mean: round(sum(xs.map(u => est(u, "model"))) / n), search_usd_mean: round((metered(xs) ?? sum(xs.map(u => est(u, "provider")))) / n), search_usd_basis: metered(xs) === null || p.arm === "none" ? "estimate" : "metered", wall_s_mean: round(sum(xs.map(u => u.metrics.wall_ms ?? 0)) / n / 1000, 1), model_calls: sum(xs.map(u => u.metrics.model_calls ?? 0)), searches: sum(xs.map(u => u.metrics.search_count ?? 0)), reads: sum(xs.map(u => u.metrics.read_count ?? 0))};
   if (product === "revera") return {...base, bugs_found: sum(xs.map(u => u.metrics.matched_bug_ids?.length ?? 0)), bugs_available: sum(xs.map(u => u.metrics.bugs_available ?? 0)), strict_fps: sum(xs.map(u => u.metrics.false_positives?.length ?? 0)), uncertain: sum(xs.map(u => u.metrics.uncertain?.length ?? 0))};
   return {...base, all_pass: xs.filter(u => u.metrics.all_pass).length, tasks: n};
-});
+}
+const agentArm = (us: Unit[], product: string) => PROVIDERS.map(p => aggregateAgentArm(us, product, p));
 const outcome = (u: Unit) => u.metrics.product === "revera"
   ? {rep: u.rep, bugs_found: u.metrics.matched_bug_ids?.length ?? 0, bugs_available: u.metrics.bugs_available ?? 0, strict_fps: u.metrics.false_positives?.length ?? 0, uncertain: u.metrics.uncertain?.length ?? 0, reads: u.metrics.read_count ?? 0, searches: u.metrics.search_count ?? 0}
   : {rep: u.rep, all_pass: !!u.metrics.all_pass, tests_pass: u.metrics.hidden_tests?.pass ?? null, tests_total: u.metrics.hidden_tests?.total ?? null, searches: u.metrics.search_count ?? 0, reads: u.metrics.read_count ?? 0};
@@ -88,6 +97,35 @@ const agentModel = sum([...everyUnit, ...superseded].filter(u => u.suite === "ag
 const judgeModel = sum(allJudgments.map((j: any) => j.cost?.estimated_usd ?? 0));
 const providerFees = sum([...everyUnit, ...superseded].map(u => est(u, "provider")));
 
+const controlArms = new Set(PROVIDERS.filter(p => p.arm !== "none").map(p => p.arm));
+const posthocFlags = (arm: string) => ({posthoc: !controlArms.has(arm), ...(controlArms.has(arm) ? {control: true} : {})});
+const posthocArms = (us: Unit[]): Arm[] => [...new Set(us.map(u => u.arm))].sort().map(arm => {
+  const [provider, profile] = arm.split(":");
+  return {arm, provider: PROVIDERS.find(p => p.arm.split(":")[0] === provider)?.provider ?? provider, profile};
+});
+const posthocRetrieval = (us: Unit[]) => posthocArms(us).map(p => ({...retrievalArm(p, us, null), ...posthocFlags(p.arm)}));
+const posthocAgents = (us: Unit[], product: string) => {
+  const valid = us.filter(u => u.metrics.product === product);
+  return posthocArms(valid).map(p => {
+    const row = aggregateAgentArm(valid, product, p);
+    return {...row, n: row.runs, ...posthocFlags(p.arm)};
+  });
+};
+const sameDayUnits = (await units(POSTHOC_RUNS.retrieval_same_day)).filter(u => u.arm !== "exa:auto-objective");
+const posthoc = {
+  run_date: "2026-10-24",
+  runs: POSTHOC_RUNS,
+  notes: [
+    "exa:auto-objective in the same-day run is void (Exa cache ignores objective); use the uncached pair",
+    "OpenCode units of results/2026-10-24T10-51-54-910Z-eval are void (fixture deps missing); rerun in results/2026-10-24T10-57-52-872Z-eval",
+    "No LLM judge on post-hoc runs",
+  ],
+  retrieval_same_day: posthocRetrieval(sameDayUnits).map(row => ({...row, ...(row.arm === "exa:auto" ? {latency_note: "about half of searches were Exa cache hits; use exa:auto-uncached for latency"} : {})})),
+  retrieval_exa_uncached: posthocRetrieval(await units(POSTHOC_RUNS.retrieval_exa_uncached)),
+  revera: posthocAgents(await units(POSTHOC_RUNS.revera), "revera"),
+  opencode: posthocAgents(await units(POSTHOC_RUNS.opencode), "opencode"),
+};
+
 const data = {
   generated_from: RUNS,
   run_date: "2026-10-19",
@@ -98,6 +136,7 @@ const data = {
   opencode: {quick_pass: agentArm(agentUnits, "opencode"), pooled: agentArm([...agentUnits, ...confirmUnits], "opencode")},
   agent_matrix: agentMatrix,
   eval_cost: {provider_fees_usd: round(providerFees, 2), agent_model_usd: round(agentModel, 2), judge_model_usd: round(judgeModel, 2), model_basis: "Anthropic list-price estimate; proxy billing not visible"},
+  posthoc,
 };
 await mkdir("site", {recursive: true});
 await writeFile("site/data.json", JSON.stringify(data, null, 2) + "\n");

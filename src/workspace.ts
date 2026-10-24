@@ -49,7 +49,14 @@ export async function protectedHashes(root: string, task: Task) { const out: Rec
 export async function prepareWorkspace(fixture: string, root: string, task: Task) {
   await rm(root, {recursive: true, force: true}); await mkdir(root, {recursive: true}); await cp(join(fixture, "repo"), root, {recursive: true, dereference: false});
   try { await lstat(join(root, "node_modules")); throw Error("Fixture repo must not contain node_modules"); } catch (e: any) { if (e.code !== "ENOENT") throw e; }
-  try { const deps = await realpath(join(fixture, ".deps", "node_modules")); await symlink(deps, join(root, "node_modules"), "dir"); } catch (e: any) { if (e.code !== "ENOENT") throw e; }
+  try { const deps = await realpath(join(fixture, ".deps", "node_modules")); await symlink(deps, join(root, "node_modules"), "dir"); } catch (e: any) {
+    if (e.code !== "ENOENT") throw e;
+    // Revera tasks never run fixture code, so only OpenCode tasks need installed deps.
+    if (task.product !== "opencode") return protectedHashes(root, task);
+    let pkg: any = {}; try { pkg = JSON.parse(await readFile(join(fixture, "repo", "package.json"), "utf8")); } catch (err: any) { if (err.code !== "ENOENT") throw err; }
+    // Without installed deps every test fails on import, which would silently score as a task failure.
+    if (Object.keys({...pkg.dependencies, ...pkg.devDependencies}).length) throw Error(`Missing ${join(fixture, ".deps", "node_modules")}; run \`bun run fixtures:setup\``);
+  }
   return protectedHashes(root, task);
 }
 export function parseTestCounts(output: string) {

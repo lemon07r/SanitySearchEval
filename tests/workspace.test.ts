@@ -2,7 +2,7 @@ import { test, expect } from "bun:test";
 import { mkdir, mkdtemp, writeFile, symlink, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { homedir } from "node:os";
-import { guardedPath, WorkspaceTools, parseTestCounts, protectedHashes, isolatedArgs } from "../src/workspace";
+import { guardedPath, WorkspaceTools, parseTestCounts, protectedHashes, isolatedArgs, prepareWorkspace } from "../src/workspace";
 import { runAgent } from "../src/agent";
 import { modelCost, emptyUsage } from "../src/llm";
 import type { Task } from "../src/types";
@@ -62,5 +62,16 @@ test("hidden tests execute after submission and protected-byte changes invalidat
     expect(result.metrics.completion).toBe("complete");
     if ("hidden_tests" in result.metrics) { expect(result.metrics.hidden_tests?.pass).toBe(1);expect(result.metrics.hidden_tests?.total).toBe(1);expect(result.metrics.hidden_tests?.exit_code).toBe(0);expect(result.metrics.violations).toEqual(["package.json"]);expect(result.metrics.all_pass).toBe(false); }
     else throw Error("Expected coding task metrics");
+  }finally{await rm(base,{recursive:true,force:true});}
+});
+test("missing fixture deps block coding tasks but not reviews",async()=>{
+  const base=await scratch(), fixture=join(base,"fixture");
+  try{
+    await mkdir(join(fixture,"repo"),{recursive:true});
+    await writeFile(join(fixture,"repo/package.json"),'{"dependencies":{"ky":"2.2.0"}}');
+    await expect(prepareWorkspace(fixture,join(base,"oc"),task)).rejects.toThrow("fixtures:setup");
+    await expect(prepareWorkspace(fixture,join(base,"rv"),{...task,product:"revera"} as Task)).resolves.toBeDefined();
+    await writeFile(join(fixture,"repo/package.json"),'{}');
+    await expect(prepareWorkspace(fixture,join(base,"oc2"),task)).resolves.toBeDefined();
   }finally{await rm(base,{recursive:true,force:true});}
 });

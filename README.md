@@ -30,6 +30,14 @@ Explore the **[interactive results page](https://sanityboard.lr7.dev/evals/searc
 | OpenCode: provider | Pick on retrieval quality plus latency: Parallel `fast` (0.5 s p50, 24/24 evidence@5). |
 | Retrieval (24 held-out cases) | evidence@5: Exa 24, Parallel 24, Tavily 22, Brave 21, Firecrawl 16. |
 
+**Post-hoc additions (2026-10-24, reported separately; see [REPORT.md](REPORT.md#post-hoc-additions-2026-10-24)).**
+New profiles compared with same-day reruns of the five originals: Firecrawl Developer Index
+19/24 evidence@5 vs 16/24 for Firecrawl search (all four of its misses are security
+advisories, which the index doesn't cover). Exa `objective` made no measurable difference;
+dynamic highlights reached 24/24 at rank 1; `lite` matched `auto` at about 40% lower cost.
+Exa `auto` is now 0.47 s p50 (was 4.5 s), so it's about as fast as Parallel. Brave
+`spellcheck: false` made no difference.
+
 ### Charts
 
 <picture>

@@ -1,0 +1,93 @@
+# Search API evaluation
+
+Directional small-sample results; no blended score or claim of statistical superiority. Failures remain in every denominator. Costs distinguish estimates from returned dollars; unknown is not zero. Latencies include retries. No recommendation is inferred without completed evaluations.
+
+## Retrieval
+
+| Profile | url@1 / @3 / @5 | evidence@1 / @3 / @5 | evidence@5 Wilson 95% | read_ok | evidence_in_read | search p50/p90 ms | search+read p50/p90 ms | median visible tokens | USD/query est / metered | USD/evidenced query est / metered | Errors |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| brave:web | 8/24 (33.3%) / 12/24 (50.0%) / 15/24 (62.5%) | 14/24 (58.3%) / 20/24 (83.3%) / 21/24 (87.5%) | 69.0%–95.7% | 22/24 (91.7%) | 20/24 (83.3%) | 494.3 / 571.4 | 744.4 / 1391.5 | 4885 | $0.00500 / unknown | $0.00571 / unknown | blocked:1, http_4xx:1 |
+| brave:web-nospell | 8/24 (33.3%) / 12/24 (50.0%) / 15/24 (62.5%) | 14/24 (58.3%) / 20/24 (83.3%) / 21/24 (87.5%) | 69.0%–95.7% | 22/24 (91.7%) | 20/24 (83.3%) | 465.5 / 524.3 | 790.0 / 1358.8 | 4885 | $0.00500 / unknown | $0.00571 / unknown | blocked:1, http_4xx:1 |
+| exa:auto | 22/24 (91.7%) / 24/24 (100.0%) / 24/24 (100.0%) | 23/24 (95.8%) / 23/24 (95.8%) / 24/24 (100.0%) | 86.2%–100.0% | 24/24 (100.0%) | 24/24 (100.0%) | 296.4 / 1173.7 | 400.7 / 1282.7 | 5694 | $0.00800 / $0.00800 | $0.00800 / $0.00800 | none |
+| exa:auto-dynamic | 22/24 (91.7%) / 24/24 (100.0%) / 24/24 (100.0%) | 24/24 (100.0%) / 24/24 (100.0%) / 24/24 (100.0%) | 86.2%–100.0% | 24/24 (100.0%) | 24/24 (100.0%) | 654.0 / 1428.5 | 770.3 / 1550.1 | 5160 | $0.00800 / $0.00800 | $0.00800 / $0.00800 | none |
+| exa:auto-objective | 22/24 (91.7%) / 24/24 (100.0%) / 24/24 (100.0%) | 23/24 (95.8%) / 23/24 (95.8%) / 24/24 (100.0%) | 86.2%–100.0% | 24/24 (100.0%) | 24/24 (100.0%) | 286.3 / 2044.1 | 386.4 / 2155.0 | 5694 | $0.00800 / $0.00800 | $0.00800 / $0.00800 | none |
+| exa:lite | 21/24 (87.5%) / 24/24 (100.0%) / 24/24 (100.0%) | 23/24 (95.8%) / 23/24 (95.8%) / 24/24 (100.0%) | 86.2%–100.0% | 24/24 (100.0%) | 24/24 (100.0%) | 438.8 / 485.5 | 545.6 / 596.5 | 5891 | $0.00500 / $0.00500 | $0.00500 / $0.00500 | none |
+| firecrawl:developer | 1/24 (4.2%) / 2/24 (8.3%) / 5/24 (20.8%) | 10/24 (41.7%) / 17/24 (70.8%) / 19/24 (79.2%) | 59.5%–90.8% | 24/24 (100.0%) | 16/24 (66.7%) | 1086.0 / 1966.8 | 3124.3 / 4178.4 | 6820 | $0.00297 / unknown | $0.00375 / unknown | none |
+| firecrawl:search | 12/24 (50.0%) / 18/24 (75.0%) / 20/24 (83.3%) | 13/24 (54.2%) / 15/24 (62.5%) / 16/24 (66.7%) | 46.7%–82.0% | 24/24 (100.0%) | 18/24 (75.0%) | 781.3 / 879.1 | 2021.9 / 3114.3 | 3884 | $0.00297 / unknown | $0.00445 / unknown | none |
+| parallel:fast | 14/24 (58.3%) / 19/24 (79.2%) / 21/24 (87.5%) | 21/24 (87.5%) / 24/24 (100.0%) / 24/24 (100.0%) | 86.2%–100.0% | 24/24 (100.0%) | 21/24 (87.5%) | 546.3 / 672.9 | 1299.7 / 1436.5 | 6538 | $0.00200 / unknown | $0.00200 / unknown | none |
+| tavily:advanced | 8/24 (33.3%) / 18/24 (75.0%) / 18/24 (75.0%) | 20/24 (83.3%) / 20/24 (83.3%) / 20/24 (83.3%) | 64.1%–93.3% | 24/24 (100.0%) | 21/24 (87.5%) | 2673.7 / 4362.5 | 2745.8 / 4591.2 | 5371 | $0.01767 / unknown | $0.02120 / unknown | none |
+
+### Retrieval by case slice
+
+Each cell: evidence@1 / evidence@5 / evidence_in_read, out of the slice size.
+
+| Profile | Revera-like (r-) | OpenCode-like (o-) | Traps |
+| --- | --- | --- | --- |
+| brave:web | 6 / 9 / 11 of 12 | 8 / 12 / 9 of 12 | 3 / 5 / 5 of 6 |
+| brave:web-nospell | 6 / 9 / 11 of 12 | 8 / 12 / 9 of 12 | 3 / 5 / 5 of 6 |
+| exa:auto | 11 / 12 / 12 of 12 | 12 / 12 / 12 of 12 | 6 / 6 / 6 of 6 |
+| exa:auto-dynamic | 12 / 12 / 12 of 12 | 12 / 12 / 12 of 12 | 6 / 6 / 6 of 6 |
+| exa:auto-objective | 11 / 12 / 12 of 12 | 12 / 12 / 12 of 12 | 6 / 6 / 6 of 6 |
+| exa:lite | 11 / 12 / 12 of 12 | 12 / 12 / 12 of 12 | 6 / 6 / 6 of 6 |
+| firecrawl:developer | 4 / 7 / 8 of 12 | 6 / 12 / 8 of 12 | 2 / 3 / 4 of 6 |
+| firecrawl:search | 4 / 5 / 9 of 12 | 9 / 11 / 9 of 12 | 2 / 3 / 5 of 6 |
+| parallel:fast | 9 / 12 / 9 of 12 | 12 / 12 / 12 of 12 | 5 / 6 / 5 of 6 |
+| tavily:advanced | 8 / 8 / 9 of 12 | 12 / 12 / 12 of 12 | 5 / 5 / 6 of 6 |
+
+### Per-case paired evidence matrix
+
+| Case | brave:web | brave:web-nospell | exa:auto | exa:auto-dynamic | exa:auto-objective | exa:lite | firecrawl:developer | firecrawl:search | parallel:fast | tavily:advanced |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| o-commander15-node-version | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 1 | 1 | 1 |
+| o-compose-watch-sync-restart | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| o-eslint10-eslintrc | 4 | 4 | 1 | 1 | 1 | 1 | 1 | ✗ | 1 | 1 |
+| o-github-api-version-default | 1 | 1 | 1 | 1 | 1 | 1 | 4 | 1 | 1 | 1 |
+| o-go124-tool-directive | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 1 | 1 | 1 |
+| o-next16-proxy-runtime | 2 | 2 | 1 | 1 | 1 | 1 | 1 | 4 | 1 | 1 |
+| o-node-require-async-module | ERR | ERR | 1 | 1 | 1 | 1 | 1 | 2 | 1 | 1 |
+| o-pg18-uuidv7 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| o-python315-tomllib-version | 1 | 1 | 1 | 1 | 1 | 1 | 2 | 1 | 1 | 1 |
+| o-rust2024-set-var-unsafe | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| o-tailwind4-theme-colors | 1 | 1 | 1 | 1 | 1 | 1 | 3 | 1 | 1 | 1 |
+| o-vitest5-sequential-removed | 2 | 2 | 1 | 1 | 1 | 1 | 2 | 1 | 1 | 1 |
+| r-chalk6-force-color | ERR | ERR | 1 | 1 | 1 | 1 | 2 | 2 | 2 | ✗ |
+| r-go-loopvar-go121-module | 1 | 1 | 1 | 1 | 1 | 1 | ✗ | ✗ | 1 | 1 |
+| r-got15-strict-content-length | 1 | 1 | 1 | 1 | 1 | 1 | 1 | ✗ | 1 | ✗ |
+| r-got16-cross-origin-credentials | 1 | 1 | 1 | 1 | 1 | 1 | 4 | ✗ | 1 | ✗ |
+| r-mise-untrusted-shell-args | ✗ | ✗ | 4 | 1 | 4 | 4 | ✗ | ✗ | 2 | 1 |
+| r-pymongo-host-injection | 3 | 3 | 1 | 1 | 1 | 1 | ✗ | ✗ | 1 | 1 |
+| r-python-utcnow-deprecated | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| r-python312-tarfile-default-filter | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| r-quart-debug-print-version | ✗ | ✗ | 1 | 1 | 1 | 1 | ✗ | ✗ | 1 | ✗ |
+| r-rustls-handshake-encryption-level | ✗ | ✗ | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| r-strawberry-async-permission | 1 | 1 | 1 | 1 | 1 | 1 | ✗ | 1 | 1 | 1 |
+| r-uv-wheel-windows | 3 | 3 | 1 | 1 | 1 | 1 | 3 | ✗ | 3 | 1 |
+
+## Revera
+
+| Arm | Bugs found / available | Reported FPs / clean PRs | Uncertain | Completion | Model calls | Tokens input/output/cache-read/cache-write | Model USD est | Search+read USD est / metered | Wall ms |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+
+### Revera task outcomes
+
+| Task | Arm / rep | Bugs | FPs | Uncertain | Completion |
+| --- | --- | --- | --- | --- | --- |
+
+### Reported clean-task and unmatched bug-task findings
+
+| Task | Arm | Kind | File:line | Title | Explanation | Confidence | Citations |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+
+## OpenCode
+
+| Arm | All-pass tasks | Violations | Timeouts | Tool calls | Model USD est | Search+read USD est / metered | Wall ms |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+
+### OpenCode task outcomes
+
+| Task | Arm / rep | Hidden tests pass/total | All pass | Violations | Completion | Model calls | Tokens input/output/cache-read/cache-write | Wall ms |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+
+## Limitations
+
+Small, directional samples. Provider caches and changing documents can affect results. Model costs are list-price estimates, not proxy invoices. Unknown/failed calls are retained, and missing latencies are represented as zero elapsed only when no call was recorded. Clean-task findings are false positives under the frozen fixture truth; unmatched bug-task findings require manual adjudication. No reranker or embedding ablation is enabled. Absent cells mean not run, never a failure or success.
