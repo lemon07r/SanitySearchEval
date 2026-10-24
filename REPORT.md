@@ -304,3 +304,42 @@ What changed:
   each). It is still not a match for Exa or Parallel on this set.
 
 Cost of the additions: about $4.80 at list prices (retrieval $1.93, agents $2.87), no judge.
+
+### OpenCode's built-in Exa search vs a direct configuration (later the same day)
+
+Question: would an OpenCode plugin that calls Exa directly beat OpenCode 2's built-in
+Exa provider? The built-in provider (`packages/core/src/plugin/websearch/exa.ts` in
+anomalyco/opencode) calls Exa's hosted MCP tool `web_search_exa` with only the query
+and 8 results. That tool then calls `/search` with `type: "auto"`, `numResults: 8` and
+`contents: {highlights: true}`, and OpenCode shows the results to the model untrimmed.
+Two new profiles mirror it: `exa:opencode-mcp` (the same MCP call, parsed the way
+OpenCode parses it) and `exa:opencode-direct` (the same `/search` body sent directly).
+Both show 8 untrimmed results. Same-day controls are the existing Exa profiles (5 results,
+4,000-character highlights, trimmed to the shared 4,000-token budget).
+
+Run: [results/2026-10-24T11-43-38-847Z-eval](results/2026-10-24T11-43-38-847Z-eval/REPORT.md)
+(one rep, no judge, $0.89).
+
+| Profile | evidence@1 | found in results | uncached search p50 ms | median search tokens | search USD |
+| --- | --- | --- | --- | --- | --- |
+| OpenCode built-in (`exa:opencode-mcp` / `-direct`) | 23/24 / 24/24 | 24/24 | about 1,500 (see note) | 4,309 | $0.007 |
+| exa:auto-uncached | 23/24 | 24/24 | 473 | 3,371 | $0.007 |
+| exa:lite | 23/24 | 24/24 | 433 | 3,172 | $0.004 |
+| exa:auto-dynamic | 24/24 | 24/24 | 1,095 | 2,597 | $0.007 |
+
+- **Quality is the same.** Every configuration found the evidence on all 24 cases, and
+  at rank 1 on 23 or 24. This set is at its ceiling for Exa and can't separate them.
+- **The built-in configuration is about 3x slower on a fresh query.** Its two profiles
+  send the same request, so whichever ran second hit Exa's cache (Exa-reported
+  `searchTime` about 8 ms, identical URLs on all 24 cases). Counting only the call that
+  ran first on each case (23 cases; one was cached by a smoke test) gives a median of
+  about 1.5 s, against 0.43 to 0.47 s for `lite` and `auto` with 5 results and
+  4,000-character highlights. Which of the two differences (8 results or default
+  highlights) causes it was not isolated.
+- **The MCP hop itself is cheap.** Time outside Exa's reported `searchTime` was 170 ms
+  median through MCP vs 89 ms direct, so MCP adds about 80 ms.
+- **A direct plugin using `lite` would cost about 43% less per search** ($0.004 vs
+  $0.007) and show about a quarter fewer tokens, with no quality loss on this set.
+
+So a small plugin that calls `/search` directly with `lite` (or `auto`), 5 results and
+4,000-character highlights is worth it for speed and cost, not quality.

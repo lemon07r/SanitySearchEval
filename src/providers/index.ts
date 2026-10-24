@@ -1,5 +1,5 @@
 import { normalizeBrave } from "./brave";
-import { normalizeExa, readExa } from "./exa";
+import { normalizeExa, normalizeExaMcp, readExa } from "./exa";
 import { normalizeParallel, readParallel } from "./parallel";
 import { normalizeFirecrawl, normalizeFirecrawlDeveloper, readFirecrawl } from "./firecrawl";
 import { normalizeTavily, readTavily } from "./tavily";
@@ -52,8 +52,8 @@ export function createAdapter(profile: Profile, fetcher?: typeof fetch): Adapter
       const http = await native(false, {"$query": query, "$purpose_or_query": purpose ?? query, "$purpose": purpose});
       if (http.error) return outcome(http, [], false);
       try {
-        const results: RawResult[] = profile.provider === "brave" ? normalizeBrave(http.data, profile.mode) : profile.provider === "exa" ? normalizeExa(http.data) : profile.provider === "parallel" ? normalizeParallel(http.data) : profile.provider === "firecrawl" ? (profile.mode === "developer" ? normalizeFirecrawlDeveloper(http.data) : normalizeFirecrawl(http.data)) : normalizeTavily(http.data);
-        return outcome(http, results.slice(0, 5), false, results.length ? undefined : {class: "empty", message: "Search returned no results"});
+        const results: RawResult[] = profile.provider === "brave" ? normalizeBrave(http.data, profile.mode) : profile.provider === "exa" ? (profile.transport === "mcp" ? normalizeExaMcp(http.data) : normalizeExa(http.data)) : profile.provider === "parallel" ? normalizeParallel(http.data) : profile.provider === "firecrawl" ? (profile.mode === "developer" ? normalizeFirecrawlDeveloper(http.data) : normalizeFirecrawl(http.data)) : normalizeTavily(http.data);
+        return outcome(http, results.slice(0, profile.max_results ?? LIMITS.results), false, results.length ? undefined : {class: "empty", message: "Search returned no results"});
       } catch (e: any) { return outcome(http, [], false, {class: "parse", message: e.message}); }
     },
     async read(result, purpose) {

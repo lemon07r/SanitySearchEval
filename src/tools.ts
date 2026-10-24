@@ -14,11 +14,18 @@ export class ToolSession {
     const id = `s${++this.sequence}`;
     if (typeof input.query !== "string" || !input.query.trim()) return {search_request_id: id, results: [], error: {class: "parse", message: "query required"}};
     const outcome = await this.adapter.search(input.query, input.purpose);
-    const results = outcome.value.slice(0, LIMITS.results).map((raw, i) => {
+    const profile = this.adapter.profile;
+    const results = outcome.value.slice(0, profile.max_results ?? LIMITS.results).map((raw, i) => {
       const result_id = `${id}r${i + 1}`; this.results.set(result_id, {raw, query: input.query, purpose: input.purpose});
       return {id: result_id, title: raw.title, url: raw.url, published_at: raw.published_at, snippet_or_excerpt: "", source: raw.source, raw_chars: raw.snippet_or_excerpt.length, visible_chars: 0};
     });
     const payload: SearchPayload = {search_request_id: id, results, ...(outcome.error ? {error: outcome.error} : {})};
+    // Profiles that mirror a host tool which shows results untrimmed skip the shared visible budget.
+    if (profile.untrimmed) {
+      results.forEach((r, i) => { r.snippet_or_excerpt = outcome.value[i].snippet_or_excerpt; r.visible_chars = r.snippet_or_excerpt.length; });
+      this.trace.push({kind: "search", outcome, visible: payload});
+      return payload;
+    }
     const maxChars = LIMITS.search_tokens * 4;
     const base = JSON.stringify(payload).length;
     // JSON escaping and metadata count toward the visible payload budget too.

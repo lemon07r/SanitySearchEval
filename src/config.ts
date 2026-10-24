@@ -8,7 +8,7 @@ export const PROVIDER_LIMITS: Record<Provider, {concurrency: number; min_interva
   tavily: {concurrency: 2, min_interval_ms: 0}
 };
 export const BRAVE_CONTEXT_BLOCKED = "OPTION_NOT_IN_PLAN: the key's Brave plan ('Free AI') does not include LLM Context (checked 2026-10-19)";
-export const PRICES = { brave: 0.005, exa: {auto: 0.007, "deep-lite": 0.012, "auto-objective": 0.007, "auto-dynamic": 0.007, "auto-uncached": 0.007, "auto-objective-uncached": 0.007, lite: 0.004, read: 0.001}, parallel: {fast: 0.001, advanced: 0.005, read: 0.001}, firecrawl_credit: 0.00099, tavily_credit: 0.008, model: {input: 4, output: 20, cache_read: 0.20, cache_write: 5} };
+export const PRICES = { brave: 0.005, exa: {auto: 0.007, "deep-lite": 0.012, "auto-objective": 0.007, "auto-dynamic": 0.007, "auto-uncached": 0.007, "auto-objective-uncached": 0.007, lite: 0.004, "opencode-mcp": 0.007, "opencode-direct": 0.007, read: 0.001}, parallel: {fast: 0.001, advanced: 0.005, read: 0.001}, firecrawl_credit: 0.00099, tavily_credit: 0.008, model: {input: 4, output: 20, cache_read: 0.20, cache_write: 5} };
 const p = (provider: Provider, mode: string, baseline: boolean, search: Profile["search"], read: Profile["read"]): Profile => ({id: `${provider}:${mode}`, provider, mode, baseline, search, read});
 const post = (url: string, params: any) => ({url, method: "POST", params});
 export const PROFILES: Profile[] = [
@@ -25,6 +25,11 @@ export const PROFILES: Profile[] = [
   // negligible maxCharacters values to get uncached, independent auto vs auto+objective results.
   ...[["auto-uncached", 3998, false], ["auto-objective-uncached", 3999, true]].map(([mode, chars, objective]) => ({...p("exa", mode as string, false, post("https://api.exa.ai/search", {query: "$query", type: "auto", numResults: 5, ...(objective ? {objective: "$purpose"} : {}), contents: {highlights: {maxCharacters: chars}}}), post("https://api.exa.ai/contents", {urls: ["$result_url"], text: {maxCharacters: 60000}})), posthoc: true as const})),
   {...p("brave", "web-nospell", false, {url: "https://api.search.brave.com/res/v1/web/search", method: "GET", params: {q: "$query", count: 5, extra_snippets: true, text_decorations: false, result_filter: "web", spellcheck: false}}, {url: "$result_url", method: "GET", params: {reader: "common-reader"}}), posthoc: true},
+  // Mirrors OpenCode 2's built-in Exa provider (anomalyco/opencode packages/core/src/plugin/websearch/exa.ts): Exa's
+  // hosted MCP tool web_search_exa, 8 results, default highlights, shown to the model untrimmed. The direct twin sends
+  // the body that MCP tool sends to /search, so the pair isolates the MCP hop.
+  {...p("exa", "opencode-mcp", false, post("https://mcp.exa.ai/mcp", {jsonrpc: "2.0", id: 1, method: "tools/call", params: {name: "web_search_exa", arguments: {query: "$query", numResults: 8}}}), post("https://api.exa.ai/contents", {urls: ["$result_url"], text: {maxCharacters: 60000}})), posthoc: true, transport: "mcp", max_results: 8, untrimmed: true, headers: {Accept: "application/json, text/event-stream"}},
+  {...p("exa", "opencode-direct", false, post("https://api.exa.ai/search", {query: "$query", type: "auto", numResults: 8, contents: {highlights: true}}), post("https://api.exa.ai/contents", {urls: ["$result_url"], text: {maxCharacters: 60000}})), posthoc: true, max_results: 8, untrimmed: true},
 ];
 export function template(value: any, vars: Record<string, string | undefined>): any {
   const keep = (v: any) => v !== "$purpose" || !!vars["$purpose"]?.trim();

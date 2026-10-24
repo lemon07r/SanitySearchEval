@@ -1,7 +1,7 @@
 import { test, expect } from "bun:test";
 import samples from "./fixtures/providers.json";
 import { normalizeBrave } from "../src/providers/brave";
-import { normalizeExa, readExa } from "../src/providers/exa";
+import { normalizeExa, normalizeExaMcp, readExa } from "../src/providers/exa";
 import { normalizeParallel, readParallel } from "../src/providers/parallel";
 import { normalizeFirecrawl, normalizeFirecrawlDeveloper, readFirecrawl } from "../src/providers/firecrawl";
 import { normalizeTavily, readTavily } from "../src/providers/tavily";
@@ -9,18 +9,19 @@ import { createAdapter, providerCost } from "../src/providers";
 import { PROFILES, template } from "../src/config";
 import { estimateUnit } from "../src/budget";
 import { ToolSession } from "../src/tools";
+import { parseBody } from "../src/http";
 const url = "https://example.com/docs";
 process.env.FIRECRAWL_API_KEY ||= "test-only-key";
 process.env.EXA_API_KEY ||= "test-only-key";
 process.env.BRAVE_API_KEY ||= "test-only-key";
 test("fifteen unique profiles retain exact frozen native parameters", () => {
-  expect(PROFILES).toHaveLength(17); expect(new Set(PROFILES.map(p=>p.id)).size).toBe(17);
+  expect(PROFILES).toHaveLength(19); expect(new Set(PROFILES.map(p=>p.id)).size).toBe(19);
   expect(PROFILES.find(p=>p.id==="parallel:fast")!.read.params.advanced_settings.full_content).toEqual({max_chars_per_result:60000});
   expect(PROFILES.find(p=>p.id==="firecrawl:search")!.read.params.maxAge).toBeUndefined();
   expect(PROFILES.find(p=>p.id==="tavily:basic")!.search.params.auto_parameters).toBe(false);
   const oldIds = ["brave:llm-context", "brave:web", "exa:auto", "exa:deep-lite", "parallel:fast", "parallel:advanced", "firecrawl:search", "firecrawl:search-md", "tavily:advanced", "tavily:basic"];
   for (const id of oldIds) { const profile=PROFILES.find(p=>p.id===id)!; expect(profile).toBeDefined(); expect(profile).not.toHaveProperty("posthoc"); expect(profile).not.toHaveProperty("headers"); }
-  expect(PROFILES.filter(p=>p.posthoc).map(p=>p.id)).toEqual(["firecrawl:developer", "exa:auto-objective", "exa:auto-dynamic", "exa:lite", "exa:auto-uncached", "exa:auto-objective-uncached", "brave:web-nospell"]);
+  expect(PROFILES.filter(p=>p.posthoc).map(p=>p.id)).toEqual(["firecrawl:developer", "exa:auto-objective", "exa:auto-dynamic", "exa:lite", "exa:auto-uncached", "exa:auto-objective-uncached", "brave:web-nospell", "exa:opencode-mcp", "exa:opencode-direct"]);
   expect(PROFILES.filter(p=>p.posthoc).every(p=>p.baseline===false)).toBe(true);
 });
 test("post-hoc profiles extend existing parameters without changing reads", () => {
@@ -184,4 +185,35 @@ test("bundled Firecrawl read makes no extra call and arbitrary IDs are blocked",
 test("blocked profiles cannot reach a provider endpoint",async()=>{
   let calls=0; const adapter=createAdapter(PROFILES.find(p=>p.id==="brave:llm-context")!, (async()=>{calls++;throw Error("must not call");}) as unknown as typeof fetch);
   const outcome=await adapter.search("anything");expect(calls).toBe(0);expect(outcome.error?.class).toBe("blocked");expect(outcome.error?.message).toContain("OPTION_NOT_IN_PLAN");
+});
+const mcpText = ["Title: Library 2.0.0\nURL: https://example.com/docs\nPublished: 2026-01-02T00:00:00.000Z\nAuthor: N/A\nHighlights:\nlibrary 2.0.0 removed foo\nsecond line", "Title: N/A\nURL: https://example.com/other\nPublished: N/A\nAuthor: N/A\nText: body text", "Title: no url"].join("\n\n---\n\n");
+const mcpReply = {jsonrpc:"2.0",id:1,result:{content:[{type:"text",text:mcpText,_meta:{searchTime:120}}]}};
+test("Exa MCP results parse like OpenCode's built-in provider",()=>{
+  expect(normalizeExaMcp(mcpReply)).toEqual([
+    {url:"https://example.com/docs",title:"Library 2.0.0",published_at:"2026-01-02T00:00:00.000Z",snippet_or_excerpt:"library 2.0.0 removed foo\nsecond line",source:"exa"},
+    {url:"https://example.com/other",title:"",published_at:null,snippet_or_excerpt:"body text",source:"exa"}]);
+  expect(normalizeExaMcp({result:{content:[{type:"text",text:"No search results found. Please try a different query."}]}})).toEqual([]);
+  expect(()=>normalizeExaMcp({result:{isError:true,content:[{type:"text",text:"Error: bad key"}]}})).toThrow("Exa MCP tool error");
+  expect(()=>normalizeExaMcp({jsonrpc:"2.0",id:1,error:{code:-32602,message:"bad args"}})).toThrow("bad args");
+});
+test("SSE bodies parse to their JSON-RPC payload",()=>{
+  expect(parseBody(`event: message\ndata: ${JSON.stringify(mcpReply)}\n\n`)).toEqual(mcpReply);
+  expect(parseBody(JSON.stringify(mcpReply))).toEqual(mcpReply);
+  expect(()=>parseBody("not json")).toThrow();
+});
+test("OpenCode mirror profiles send OpenCode's request and show 8 untrimmed results",async()=>{
+  const requests: {url:string;headers:Headers;body:any}[]=[];
+  const long="library 2.0.0 ".repeat(1500);
+  const text=Array.from({length:9},(_,i)=>`Title: T${i}\nURL: https://example.com/${i}\nPublished: N/A\nAuthor: N/A\nHighlights:\n${long}`).join("\n\n---\n\n");
+  const fetcher=(async(input:any,init:any)=>{requests.push({url:String(input),headers:new Headers(init.headers),body:JSON.parse(init.body)});return new Response(`event: message\ndata: ${JSON.stringify({jsonrpc:"2.0",id:1,result:{content:[{type:"text",text}]}})}\n\n`,{headers:{"content-type":"text/event-stream"}});}) as unknown as typeof fetch;
+  const session=new ToolSession(createAdapter(PROFILES.find(p=>p.id==="exa:opencode-mcp")!,fetcher));
+  const search=await session.web_search({query:"library 2.0.0",purpose:"ignored"});
+  expect(search.error).toBeUndefined(); expect(search.results).toHaveLength(8);
+  expect(search.results.every(r=>r.snippet_or_excerpt===long.trim())).toBe(true);
+  expect(requests[0].url).toBe("https://mcp.exa.ai/mcp");
+  expect(requests[0].body).toEqual({jsonrpc:"2.0",id:1,method:"tools/call",params:{name:"web_search_exa",arguments:{query:"library 2.0.0",numResults:8}}});
+  expect(requests[0].headers.get("accept")).toBe("application/json, text/event-stream");
+  expect(requests[0].headers.get("x-api-key")).toBe(process.env.EXA_API_KEY!);
+  expect(PROFILES.find(p=>p.id==="exa:opencode-direct")!.search.params).toEqual({query:"$query",type:"auto",numResults:8,contents:{highlights:true}});
+  expect(providerCost(PROFILES.find(p=>p.id==="exa:opencode-mcp")!,false,{}).estimated_usd).toBe(.007);
 });

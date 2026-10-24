@@ -27,6 +27,12 @@ export function errorClass(status?: number, error?: any): ToolError["class"] {
   return "network";
 }
 export interface HttpOptions {url: string; method?: string; params?: any; headers?: Record<string, string>; timeout?: number; provider?: string; fetcher?: typeof fetch; sleep?: (ms: number) => Promise<any>}
+// MCP servers may answer a JSON-RPC POST with a single-event SSE stream instead of a JSON body.
+export function parseBody(text: string): any {
+  if (/^\s*[{[]/.test(text)) return JSON.parse(text);
+  const line = text.split("\n").find(l => l.startsWith("data:") && /^\s*\{/.test(l.slice(5)));
+  return JSON.parse(line ? line.slice(5) : text);
+}
 export async function requestJSON(o: HttpOptions): Promise<HttpResult> {
   const provider = o.provider ?? "llm";
   const limits = PROVIDER_LIMITS[provider as keyof typeof PROVIDER_LIMITS] ?? {concurrency: LIMITS.provider_concurrency, min_interval_ms: 0};
@@ -58,7 +64,7 @@ export async function requestJSON(o: HttpOptions): Promise<HttpResult> {
         attempt.ms = performance.now() - began;
         if (!response.ok) { result.error = {class: errorClass(response.status), message: `HTTP ${response.status}`}; try { result.data = JSON.parse(text); } catch { result.data = {body: text}; } retry = response.status === 429 || response.status >= 500; }
         else {
-          result.data = JSON.parse(text);
+          result.data = parseBody(text);
           delete result.error;
           attempt.request_id = result.data?.requestId ?? result.data?.request_id ?? result.data?.search_id ?? result.data?.extract_id ?? result.data?.id ?? attempt.request_id;
         }

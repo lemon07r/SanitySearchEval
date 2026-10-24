@@ -9,7 +9,7 @@ export interface SearchResult extends RawResult { id: string; raw_chars: number;
 export interface SearchPayload { search_request_id: string; results: SearchResult[]; error?: ToolError }
 export interface ReadPayload { id: string; url: string; title?: string; text: string; available: boolean; error?: ToolError; provenance: string; raw_chars: number; visible_chars: number; metadata?: any }
 export interface Outcome<T> { value: T; cost: Cost; http?: HttpResult; raw?: any; ms: number; error?: ToolError }
-export interface Profile { id: string; provider: Provider; mode: string; baseline: boolean; blocked_reason?: string; headers?: Record<string, string>; posthoc?: true; search: {url: string; method: string; params: any}; read: {url: string; method: string; params: any} }
+export interface Profile { id: string; provider: Provider; mode: string; baseline: boolean; blocked_reason?: string; headers?: Record<string, string>; posthoc?: true; transport?: "mcp"; max_results?: number; untrimmed?: true; search: {url: string; method: string; params: any}; read: {url: string; method: string; params: any} }
 export interface Adapter {
   profile: Profile;
   search(query: string, purpose?: string): Promise<Outcome<RawResult[]>>;
