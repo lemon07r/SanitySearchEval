@@ -32,8 +32,8 @@ Explore the **[interactive results page](https://sanityboard.lr7.dev/evals/searc
 
 **Post-hoc additions (2026-10-24, reported separately; see [REPORT.md](REPORT.md#post-hoc-additions-2026-10-24)).**
 New profiles compared with same-day reruns of the five originals: Firecrawl Developer Index
-19/24 evidence@5 vs 16/24 for Firecrawl search (all four of its misses are security
-advisories, which the index doesn't cover). Exa `objective` made no measurable difference;
+19/24 evidence@5 vs 16/24 for Firecrawl search (it gained on library and migration
+questions; both Firecrawl modes found only 2 of 6 security-advisory cases). Exa `objective` made no measurable difference;
 dynamic highlights reached 24/24 at rank 1; `lite` matched `auto` at about 40% lower cost.
 Exa `auto` is now 0.47 s p50 (was 4.5 s), so it's about as fast as Parallel. Brave
 `spellcheck: false` made no difference.

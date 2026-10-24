@@ -110,7 +110,8 @@ That was the only source of strict clean-control flags.
   choice. Exa `lite` (same evidence, $0.004 per search) sits between them. If Exa is
   used, pass the agent's purpose as `objective`: Exa recommends it, and it was
   neutral here. If Firecrawl is used, prefer `/v2/search/developer` for code
-  questions (19/24 vs 16/24 evidence@5) and general search for advisories.
+  questions (19/24 vs 16/24 evidence@5). Neither Firecrawl mode handled security
+  advisories well (2 of 6 each).
 - **Expected benefit is small for well-known libraries.** No-search passed 4/4
   coding tasks, the same as the best search arm. A likely but untested explanation
   is that the model already knew these upgrades. Search should be a tool the model chooses to call, not something

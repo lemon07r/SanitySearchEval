@@ -237,9 +237,11 @@ What changed:
   evidence on 19/24 cases vs 16/24 for Firecrawl's general search on the same day:
   it won 4 cases (ESLint 10, Got 15, Got 16, uv) and lost 1 (Strawberry). On the
   Revera-like slice it found 7/12 vs 5/12. It still trails Exa and Parallel (24/24).
-  Its 4 remaining misses are all security-advisory cases (Quart, mise, PyMongo, Go
-  loopvar). The index covers GitHub issues, PRs, READMEs and curated docs, not
-  advisory databases, so this is a coverage limit rather than a ranking problem.
+  It missed 5 cases: four security-advisory questions (mise, PyMongo, Quart,
+  Strawberry) and the Go loopvar version question. General search missed three of
+  those same advisories and Go loopvar too, so on the 6 advisory-style cases both
+  Firecrawl modes found evidence on only 2. The gain came from library and migration
+  questions.
   105 of its 120 results were github.com URLs, and it rarely returned the canonical
   page itself (url@5: 5/24): the evidence usually came from an issue or PR quoting it.
   Its evidence also sat lower in the list (evidence@1: 10 vs 13).
@@ -298,7 +300,7 @@ What changed:
   at rank 1 (23 vs 21) and Parallel costs less. Exa `lite` is a reasonable middle
   option. Either is fine. These new data don't settle which is better.
 - **Firecrawl:** if you use Firecrawl, use the Developer Index for code questions
-  (19 vs 16) and general search for advisories. It is still not a match for Exa or
-  Parallel on this set.
+  (19 vs 16). Neither Firecrawl mode handled security advisories well (2 of 6
+  each). It is still not a match for Exa or Parallel on this set.
 
 Cost of the additions: about $4.80 at list prices (retrieval $1.93, agents $2.87), no judge.
